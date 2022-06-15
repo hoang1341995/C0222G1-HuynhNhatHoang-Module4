@@ -2,6 +2,7 @@ package example.controller;
 
 import example.service.ISandWichService;
 import example.service.impl.SandWichService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SandWichController {
-    ISandWichService iSandWichService = new SandWichService();
+    @Autowired
+    private ISandWichService iSandWichService;
     @GetMapping("/")
     public String getIndex() {
         return "/index";

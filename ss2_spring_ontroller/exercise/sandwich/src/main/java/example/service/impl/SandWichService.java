@@ -1,7 +1,9 @@
 package example.service.impl;
 
 import example.service.ISandWichService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SandWichService implements ISandWichService {
     @Override
     public String returnYourChose(String[] condiment) {

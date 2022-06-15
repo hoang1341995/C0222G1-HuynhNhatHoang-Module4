@@ -1,7 +1,9 @@
 package example.service.impl;
 
 import example.service.ICaculatorService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CaculatorService implements ICaculatorService {
 
     @Override
