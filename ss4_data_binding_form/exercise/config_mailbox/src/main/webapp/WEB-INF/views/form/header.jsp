@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: huynhhoang
-  Date: 01/06/2022
-  Time: 16:31
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,7 +11,7 @@
 <section class="ftco-section">
     <div class="container-fluid d-flex m-2">
         <div class="col-2">
-            <img src="/logo.png" height="100" width="80" alt="logo">
+            <img src="../../WEB-INF/views/img/logo.png" height="100" width="80" alt="logo">
         </div>
         <div class="col-8 justify-content-center">
 
