@@ -17,13 +17,13 @@ public class DeclarationController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showForm(Model model) {
-        model.addAttribute("yearOfBirthdayList",iDeclarationService.returnyearOfBirthdayListList());
+        model.addAttribute("yearOfBirthdayList", iDeclarationService.returnyearOfBirthdayListList());
         model.addAttribute("declaration", new Declaration());
         return "index";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String showForm(@ModelAttribute Declaration declaration , Model model) {
+    public String showForm(@ModelAttribute Declaration declaration, Model model) {
         iDeclarationService.addNewDeclaration(declaration);
         model.addAttribute("message", "add new successful");
         model.addAttribute("openModalMessage", "$('#message').modal();");
