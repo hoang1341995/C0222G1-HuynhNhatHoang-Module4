@@ -12,7 +12,7 @@
         </button>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav m-auto">
-                <li class="nav-item active"><a href="/" class="nav-link">Trang chủ</a></li>
+                <li class="nav-item active"><a href="/" class="nav-link">Khai báo</a></li>
                 <li class="nav-item"><a href="/list" class="nav-link">Danh sách Khai báo y tế</a></li>
                 <%--                <li class="nav-item"><a href="/#" class="nav-link">Dịch vụ khác</a></li>--%>
                 <%--&lt;%&ndash;                <li class="nav-item"><a href="#" class="nav-link"></a></li>&ndash;%&gt;--%>
