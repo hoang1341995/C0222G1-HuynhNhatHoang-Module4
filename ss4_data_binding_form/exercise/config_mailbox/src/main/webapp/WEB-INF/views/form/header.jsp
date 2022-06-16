@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>header</title>
@@ -8,10 +9,12 @@
 <link rel="stylesheet" href="WEB-INF/views/form/bootstrap/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="WEB-INF/views/form/bootstrap/css/font-awesome.min.css">
 <body>
+<img src="/resources/logo.png"  alt="">
 <section class="ftco-section">
     <div class="container-fluid d-flex m-2">
         <div class="col-2">
-            <img src="../../WEB-INF/views/img/logo.png" height="100" width="80" alt="logo">
+<%--            <img src="../../WEB-INF/views/img/logo.png" height="100" width="80" alt="logo">--%>
+            <img src="${pageContext.request.contextPath}/img/logo.png"  alt="">
         </div>
         <div class="col-8 justify-content-center">
 

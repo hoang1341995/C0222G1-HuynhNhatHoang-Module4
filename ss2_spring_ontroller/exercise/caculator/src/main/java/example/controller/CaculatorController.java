@@ -22,9 +22,9 @@ public class CaculatorController {
 
     @PostMapping("/")
     public String postIndex(@RequestParam int number1, int number2, String cal, Model model) {
-        model.addAttribute("total", iCaculatorService.cal(number1,number2,cal));
-        model.addAttribute("number1",number1);
-        model.addAttribute("number2",number2);
+        model.addAttribute("total", iCaculatorService.cal(number1, number2, cal));
+        model.addAttribute("number1", number1);
+        model.addAttribute("number2", number2);
         return "/index";
     }
 }

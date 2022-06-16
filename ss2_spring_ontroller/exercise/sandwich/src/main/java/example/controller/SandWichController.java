@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SandWichController {
     @Autowired
     private ISandWichService iSandWichService;
+
     @GetMapping("/")
     public String getIndex() {
         return "/index";
@@ -21,10 +22,10 @@ public class SandWichController {
     @PostMapping("/")
     public String postIndex(@RequestParam("condiment") String[] condiment, Model model) {
         String mess = iSandWichService.returnYourChose(condiment);
-            for (int i = 0; i < condiment.length; i++) {
-                model.addAttribute(condiment[i],"checked");
-            }
-        model.addAttribute("mess",mess);
+        for (int i = 0; i < condiment.length; i++) {
+            model.addAttribute(condiment[i], "checked");
+        }
+        model.addAttribute("mess", mess);
         return "/index";
     }
 }
