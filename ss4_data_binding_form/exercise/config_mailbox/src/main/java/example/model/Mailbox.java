@@ -2,14 +2,14 @@ package example.model;
 
 public class Mailbox {
     private String language;
-    private int size;
+    private Integer size;
     private boolean spamsFillter;
     private String signature;
 
     public Mailbox() {
     }
 
-    public Mailbox(String language, int size, boolean spamsFillter, String signature) {
+    public Mailbox(String language, Integer size, boolean spamsFillter, String signature) {
         this.language = language;
         this.size = size;
         this.spamsFillter = spamsFillter;
@@ -24,15 +24,15 @@ public class Mailbox {
         this.language = language;
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
-    public boolean isSpamsFillter() {
+    public boolean getSpamsFillter() {
         return spamsFillter;
     }
 

@@ -81,20 +81,20 @@
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Dịch vụ</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Hợp đồng</a></li>
         </ul>
-        <p class="text-center text-muted">© 2022 Exam module3</p>
+        <p class="text-center text-muted">© 2022 Exercise module 4</p>
     </footer>
 </div>
 </body>
-<script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
-<script src="/bootstrap/js/jquery.dataTables.min.js"></script>
-<script src="/bootstrap/js/dataTables.bootstrap4.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/bootstrap/js/jquery-3.6.0.min.js"></script>
+<script src="/resources/bootstrap/js/jquery.dataTables.min.js"></script>
+<script src="/resources/bootstrap/js/dataTables.bootstrap4.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#tables').dataTable({
             "dom": 'lrtip',
             "lengthChange": false,
-            "pageLength": 2
+            "pageLength": 10
         });
     });
 </script>
