@@ -1,7 +1,7 @@
 package example.service.impl;
 
 import example.model.Declaration;
-import example.repository.IDeclarationRepo;
+import example.repository.IDeclarationRepository;
 import example.service.IDeclarationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,20 +12,35 @@ import java.util.List;
 public class DeclarationService implements IDeclarationService {
 
     @Autowired
-    private IDeclarationRepo iDeclarationRepo;
+    private IDeclarationRepository iDeclarationRepository;
 
     @Override
     public List<Declaration> returnDeclarationList() {
-        return iDeclarationRepo.returnDeclarationList();
+        return iDeclarationRepository.returnDeclarationList();
     }
 
     @Override
     public void addNewDeclaration(Declaration declaration) {
-        iDeclarationRepo.addNewDeclaration(declaration);
+        iDeclarationRepository.addNewDeclaration(declaration);
     }
 
     @Override
-    public List<String> returnyearOfBirthdayListList() {
-        return iDeclarationRepo.returnyearOfBirthdayListList();
+    public List<String> returnyearOfBirthdayList() {
+        return iDeclarationRepository.returnyearOfBirthdayList();
+    }
+
+    @Override
+    public List<String> returnCountryList() {
+        return iDeclarationRepository.returnCountryList();
+    }
+
+    @Override
+    public List<String> returnVehiclesList() {
+        return iDeclarationRepository.returnVehiclesList();
+    }
+
+    @Override
+    public List<String> returnGenderList() {
+        return iDeclarationRepository.returnGenderList();
     }
 }

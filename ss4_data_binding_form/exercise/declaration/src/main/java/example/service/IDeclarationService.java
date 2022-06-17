@@ -10,6 +10,12 @@ public interface IDeclarationService {
 
     void addNewDeclaration(Declaration declaration);
 
-    List<String> returnyearOfBirthdayListList();
+    List<String> returnyearOfBirthdayList();
+
+    List<String> returnCountryList();
+
+    List<String> returnVehiclesList();
+
+    List<String> returnGenderList();
 
 }

@@ -29,15 +29,13 @@
                 <div class="col-md-4 mb-3">
                     <label>Quốc tịch</label>
                     <form:select path="country" class="form-control">
-                        <form:option value="Việt Nam">Việt Nam</form:option>
-                        <form:option value="USA">USA</form:option>
+                        <form:options items="${countryList}"></form:options>
                     </form:select>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Giới tính</label>
                     <form:select path="gender" class="form-control">
-                        <form:option value="Nam">Nam</form:option>
-                        <form:option value="Nữ">Nữ</form:option>
+                        <form:options items="${genderList}"></form:options>
                     </form:select>
                 </div>
             </div>
@@ -51,19 +49,7 @@
                 <div class="col-md-12">
                     <label>Thông tin đi lại</label><br>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="vehicles" id="vehicles1" class="custom-control-input"
-                                          value="Tàu bay"></form:radiobutton>
-                        <label class="custom-control-label" for="vehicles1">Tàu bay</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="vehicles" id="vehicles2" class="custom-control-input"
-                                          value="Tàu thuyền"></form:radiobutton>
-                        <label class="custom-control-label" for="vehicles2">Tàu thuyền</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="vehicles" id="vehicles3" class="custom-control-input"
-                                          value="Ô tô"></form:radiobutton>
-                        <label class="custom-control-label" for="vehicles3">Ô tô</label>
+                        <form:radiobuttons path="vehicles" items="${vehiclesList}"/>
                     </div>
                 </div>
             </div>

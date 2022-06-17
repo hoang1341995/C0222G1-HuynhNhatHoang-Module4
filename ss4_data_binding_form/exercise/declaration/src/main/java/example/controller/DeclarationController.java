@@ -17,7 +17,10 @@ public class DeclarationController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showForm(Model model) {
-        model.addAttribute("yearOfBirthdayList", iDeclarationService.returnyearOfBirthdayListList());
+        model.addAttribute("yearOfBirthdayList", iDeclarationService.returnyearOfBirthdayList());
+        model.addAttribute("countryList", iDeclarationService.returnCountryList());
+        model.addAttribute("vehiclesList", iDeclarationService.returnVehiclesList());
+        model.addAttribute("genderList", iDeclarationService.returnGenderList());
         model.addAttribute("declaration", new Declaration());
         return "index";
     }
