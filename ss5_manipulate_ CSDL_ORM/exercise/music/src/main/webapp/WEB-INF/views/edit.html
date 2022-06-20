@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /*loop through a collection of all HTML elements:*/
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("w3-include-html");
+                        includeHTML();
+                    }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+            }
+        }
+    };
+</script>
+<body>
+<div w3-include-html="/resources/form/header.html"></div>
+<div w3-include-html="/resources/form/nav-bar.html"></div>
+
+<div class="container-fluid d-flex">
+    <div class="left col-2">
+        left
+    </div>
+    <div class="left col-8">
+        <h1>Sửa bài hát</h1>
+        <form method="post" th:action="@{/update}" th:object="${MusicFindById}">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label>Tên bài hát</label>
+                <input type="text" class="form-control" th:field="*{name}"
+                       placeholder="Nhập tên bài hát" required>
+            </div>
+            <div class="form-group">
+                <label>Ca sĩ thể hiện</label>
+                <input type="text" class="form-control" th:field="*{singer}"
+                       placeholder="Nhập tên ca sĩ thể hiện" required>
+            </div>
+            <div class="form-group">
+                <label>Thể loại nhạc</label>
+                <input type="text" class="form-control" th:field="*{type}"
+                       placeholder="Nhập thể loại nhạc" required>
+            </div>
+            <div class="form-group">
+                <label>Đường dẫn bài hát</label>
+                <input type="text" class="form-control" th:field="*{path}" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Xác nhận</button>
+            </div>
+        </form>
+    </div>
+    <div class="left col-2">
+        right
+    </div>
+</div>
+<div w3-include-html="/resources/form/footer.html"></div>
+<script>
+    includeHTML();
+</script>
+</body>
+</html>
