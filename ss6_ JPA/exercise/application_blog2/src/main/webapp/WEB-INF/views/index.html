@@ -76,20 +76,18 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Tên bài hát</th>
-                <th>Ca sĩ</th>
-                <th>Đường dẫn nhạc</th>
-                <th>Thể loại</th>
+                <th>Tiêu đề</th>
+                <th>Nội dung</th>
+                <th>Thời gian đăng tải</th>
                 <th>Tuỳ chọn</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="row : ${musicList}">
+            <tr th:each="row : ${blogList}">
                 <td th:text="${row.getId()}"></td>
-                <td th:text="${row.getName()}"></td>
-                <td th:text="${row.getSinger()}"></td>
-                <td th:text="${row.getPath()}"></td>
-                <td th:text="${row.getType()}"></td>
+                <td th:text="${row.getTitle()}"></td>
+                <td th:text="${row.getContent()}"></td>
+                <td th:text="${row.getDate()}"></td>
                 <td>
                     <a type="button" class="btn btn-outline-primary" th:href="@{/{id}/edit(id=${row.getId()})}">Edit</a>
                     <a type="button" class="btn btn-outline-info" th:href="@{/{id}/view(id=${row.getId()})}">View</a>

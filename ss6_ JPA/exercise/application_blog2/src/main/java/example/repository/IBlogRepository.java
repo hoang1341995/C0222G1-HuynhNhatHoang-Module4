@@ -4,13 +4,14 @@ import example.model.Blog;
 import org.hibernate.metamodel.model.convert.spi.JpaAttributeConverter;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional
-public interface IBlogRepository extends JpaAttributeConverter<Blog, Integer>{
+public interface IBlogRepository extends PagingAndSortingRepository<Blog, Integer> {
 
     @Query(value = "SELECT * FROM blog_table", nativeQuery = true)
     List<Blog> findAll();
