@@ -4,7 +4,6 @@ import com.example.blog_application.model.Blog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface IBlogService {
 
@@ -18,6 +17,6 @@ public interface IBlogService {
 
     void remove(Integer id);
 
-    List<Blog> searchByName(String title);
+    Page<Blog> searchByName(String title,Pageable pageable);
 
 }

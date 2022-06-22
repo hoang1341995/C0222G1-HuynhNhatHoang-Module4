@@ -7,10 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
-public class BlogService implements IBlogService{
+public class BlogService implements IBlogService {
 
     @Autowired
     private IBlogRepository iBlogRepository;
@@ -22,7 +21,7 @@ public class BlogService implements IBlogService{
 
     @Override
     public void save(Blog blog) {
-        iBlogRepository.save(blog.getTitle(),blog.getContent(),blog.getDate());
+        iBlogRepository.save(blog.getTitle(), blog.getContent(), blog.getDate(), blog.getCategory().getId());
     }
 
     @Override
@@ -32,7 +31,7 @@ public class BlogService implements IBlogService{
 
     @Override
     public void update(Blog blog) {
-        iBlogRepository.update(blog.getTitle(),blog.getContent(),blog.getDate(),blog.getId());
+        iBlogRepository.update(blog.getTitle(), blog.getContent(), blog.getDate(), blog.getId());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class BlogService implements IBlogService{
     }
 
     @Override
-    public List<Blog> searchByName(String title) {
-        return iBlogRepository.searchByName(title);
+    public Page<Blog> searchByName(String title, Pageable pageable) {
+        return iBlogRepository.searchByName("%" + title + "%", pageable);
     }
 }

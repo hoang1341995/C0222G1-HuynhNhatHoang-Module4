@@ -60,6 +60,7 @@
                 <th scope="col">Tiêu đề</th>
                 <th scope="col">Nội dung</th>
                 <th scope="col">Ngày đăng tải</th>
+                <th scope="col">Danh mục</th>
             </tr>
             </thead>
             <tbody>
@@ -68,6 +69,7 @@
                 <td th:text="${blog.title}"></td>
                 <td th:text="${blog.content}"></td>
                 <td th:text="${blog.date}"></td>
+                <td th:text="${blog.category.name}"></td>
             </tr>
             </tbody>
         </table>

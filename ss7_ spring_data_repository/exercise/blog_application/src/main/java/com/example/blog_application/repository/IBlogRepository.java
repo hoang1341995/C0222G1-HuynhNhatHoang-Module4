@@ -18,11 +18,12 @@ public interface IBlogRepository extends PagingAndSortingRepository<Blog, Intege
     Page<Blog> findAll(Pageable pageable);
 
     @Modifying
-    @Query(value = "INSERT INTO blog_table (title, content, posting_date) VALUES (:title, :content, :date)",
+    @Query(value = "INSERT INTO blog_table (title, content, posting_date,id_category) VALUES (:title, :content, :date, :category)",
             nativeQuery = true)
     void save(@Param("title") String title,
                   @Param("content") String content,
-                  @Param("date") String date);
+                  @Param("date") String date,
+                    @Param("category") Integer category);
 
     @Query(value = "SELECT * FROM blog_table WHERE id = :id", nativeQuery = true)
     Blog findById(@Param("id") int id);
@@ -36,7 +37,7 @@ public interface IBlogRepository extends PagingAndSortingRepository<Blog, Intege
                 @Param("id") int id);
 
     @Query(value = "SELECT * FROM blog_table WHERE title LIKE :title", nativeQuery = true)
-    List<Blog> searchByName(@Param("title") String title);
+    Page<Blog> searchByName(@Param("title") String title,Pageable pageable);
 
     @Modifying
     @Query(value = "DELETE FROM blog_table WHERE id = :id", nativeQuery = true)
