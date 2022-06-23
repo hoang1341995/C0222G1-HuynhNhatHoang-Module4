@@ -95,7 +95,21 @@
 
             </tr>
         </table>
-
+        <div class="d-flex">
+            <div class="col-10">
+            </div>
+            <div class="col-2 text-right">
+                     <span>
+        <a type="button" class="btn btn-outline-info" style="margin-right: 2px" th:if="${productList.hasPrevious()}" th:href="@{/(page = ${productList.number - 1})}">Previous</a>
+                    </span>
+                <span th:each="pageNo: ${#numbers.sequence(0,productList.totalPages - 1)}">
+        <a type="button" class="btn btn-outline-info" style="margin-right: 2px" th:href="@{/(page = ${pageNo})}" th:text="${pageNo}"></a>
+                    </span>
+                <span>
+        <a type="button" class="btn btn-outline-info" style="margin-right: 2px" th:if="${productList.hasNext()}" th:href="@{/(page = ${productList.number +1})}">Next</a>
+                    </span>
+            </div>
+        </div>
 
     </div>
 </div>
