@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /*loop through a collection of all HTML elements:*/
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {
+                            elmnt.innerHTML = this.responseText;
+                        }
+                        if (this.status == 404) {
+                            elmnt.innerHTML = "Page not found.";
+                        }
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("w3-include-html");
+                        includeHTML();
+                    }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+            }
+        }
+    };
+</script>
+<body>
+<div w3-include-html="/bootstrap/form/header.html"></div>
+<div w3-include-html="/bootstrap/form/nav-bar.html"></div>
+<div class="container-fluid d-flex">
+    <div class="left col-2">
+        left
+    </div>
+    <div class="left col-8">
+        <h1>Đăng ký</h1>
+        <form method="post" th:action="@{/}" th:object="${register}">
+            <div class="form-group">
+                <label>Họ</label>
+                <input type="text" class="form-control" th:field="*{firstName}"
+                       placeholder="Nhập Họ">
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{firstName}"></p>
+            </div>
+            <div class="form-group">
+                <label>Tên</label>
+                <input type="text" class="form-control" th:field="*{lastName}"
+                       placeholder="Nhập Tên">
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{lastName}"></p>
+            </div>
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="text" class="form-control" th:field="*{phoneNumber}"
+                       placeholder="Nhập Số điện thoại">
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{phoneNumber}"></p>
+            </div>
+            <div class="form-group">
+                <label>Tuổi</label>
+                <input type="text" class="form-control" th:field="*{age}"
+                       placeholder="Nhập tuổi">
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{age}"></p>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" th:field="*{email}"
+                       placeholder="Nhập Email">
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{email}"></p>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Xác nhận</button>
+            </div>
+        </form>
+    </div>
+    <div class="left col-2">
+        right
+    </div>
+</div>
+<div w3-include-html="/bootstrap/form/footer.html"></div>
+<script>
+    includeHTML();
+</script>
+</body>
+</html>
