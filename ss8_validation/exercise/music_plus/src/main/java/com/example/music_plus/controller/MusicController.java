@@ -27,7 +27,7 @@ public class MusicController {
     public String showIndex(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         Sort sort = Sort.by("id").ascending();
         Page<Music> list = iMusicService.findAll(PageRequest.of(page, 2, sort));
-        model.addAttribute("musicList",list);
+        model.addAttribute("musicList", list);
         return "index";
     }
 
@@ -39,7 +39,7 @@ public class MusicController {
 
     @PostMapping("/save")
     public String saveMusic(@Valid Music music, BindingResult bindingResult, RedirectAttributes redirect) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "create";
         }
         iMusicService.save(music);
@@ -74,9 +74,9 @@ public class MusicController {
     }
 
     @GetMapping("/search")
-    public String searchByName(@RequestParam(name = "page", defaultValue = "0") int page,String name, Model model) {
+    public String searchByName(@RequestParam(name = "page", defaultValue = "0") int page, String name, Model model) {
         Sort sort = Sort.by("id").ascending();
-        Page<Music> list = iMusicService.searchByName(name,PageRequest.of(page, 2, sort));
+        Page<Music> list = iMusicService.searchByName(name, PageRequest.of(page, 2, sort));
         model.addAttribute("musicList", list);
         return "index";
     }

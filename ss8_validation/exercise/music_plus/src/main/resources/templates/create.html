@@ -48,24 +48,25 @@
                 <div class="form-group">
                     <label>Tên bài hát</label>
                     <input type="text" class="form-control" th:field="*{name}"
-                           placeholder="Nhập tên bài hát" required>
+                           placeholder="Nhập tên bài hát" >
                     <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{name}"></p>
                 </div>
                 <div class="form-group">
                     <label>Ca sĩ thể hiện</label>
                     <input type="text" class="form-control" th:field="*{singer}"
-                           placeholder="Nhập tên ca sĩ thể hiện" required>
+                           placeholder="Nhập tên ca sĩ thể hiện" >
                     <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{singer}"></p>
                 </div>
             <div class="form-group">
                 <label>Thể loại nhạc</label>
                 <input type="text" class="form-control" th:field="*{type}"
-                       placeholder="Nhập thể loại nhạc" required>
+                       placeholder="Nhập thể loại nhạc" >
                 <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{type}"></p>
             </div>
             <div class="form-group">
                 <label>Đường dẫn bài hát</label>
-                <input type="text" class="form-control" th:field="*{path}" required>
+                <input type="text" class="form-control" th:field="*{path}" >
+                <p style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{path}"></p>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block mb-4">Xác nhận</button>

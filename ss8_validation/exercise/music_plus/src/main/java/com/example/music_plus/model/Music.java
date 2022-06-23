@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity(name = "music_model")
@@ -15,19 +16,20 @@ public class Music {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @RegexCharConstraint
+
     @NotEmpty(message = "Chưa nhập tên bài hát")
-    @Size(min = 10,max = 800,message = "Ít nhất 10 và tối đa 800 kí tự")
+    @Pattern(regexp = "^[\\w]{1,800}$", message = "Sai định dạng")
     private String name;
-    @RegexCharConstraint
+
     @NotEmpty(message = "Chưa nhập tên ca sĩ")
-    @Size(min = 10,max = 300,message = "Ít nhất 10 và tối đa 300 kí tự")
+    @Pattern(regexp = "^[\\w]{1,300}$", message = "Sai định dạng")
     private String singer;
 
     @NotEmpty(message = "Chưa nhập thể loại nhạc")
-    @Size(min = 10,max = 1000,message = "Ít nhất 10 và tối đa 1000 kí tự")
+    @Pattern(regexp = "^[\\w,]{1,1000}$", message = "Sai định dạng")
     private String type;
 
+    @NotEmpty(message = "Chưa nhập đường dẫn")
     private String path;
 
     public Music() {

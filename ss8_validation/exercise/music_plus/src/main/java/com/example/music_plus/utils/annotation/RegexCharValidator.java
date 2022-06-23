@@ -3,7 +3,7 @@ package com.example.music_plus.utils.annotation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class RegexCharValidator implements ConstraintValidator<RegexCharConstraint,String> {
+public class RegexCharValidator implements ConstraintValidator<RegexCharConstraint, String> {
     @Override
     public void initialize(RegexCharConstraint constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);

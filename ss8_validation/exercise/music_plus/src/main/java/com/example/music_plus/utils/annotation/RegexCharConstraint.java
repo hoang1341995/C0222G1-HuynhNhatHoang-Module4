@@ -13,7 +13,9 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = RegexCharValidator.class)
 public @interface RegexCharConstraint {
-String message()default"Không đúng định dạng";
-Class<?>[] groups() default{};
-Class<? extends Payload> [] payload() default {};
+    String message() default "Không đúng định dạng";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }
