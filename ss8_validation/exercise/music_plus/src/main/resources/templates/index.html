@@ -89,7 +89,10 @@
                 <td th:text="${row.getType()}"></td>
                 <td>
                     <a type="button" class="btn btn-outline-primary" th:href="@{/{id}/edit(id=${row.getId()})}">Edit</a>
-                    <a type="button" class="btn btn-outline-info" th:href="@{/{id}/view(id=${row.getId()})}">View</a>
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#view"
+                            th:attr="onclick=|viewModal('${row.getName}', '${row.getSinger}', '${row.getType}', '${row.getPath}')|" >View
+                    </button>
+
                     <a type="button" class="btn btn-outline-danger" th:href="@{/{id}/delete(id=${row.getId()})}">Delete</a>
                 </td>
 
@@ -114,7 +117,53 @@
 
     </div>
 </div>
+<%--login--%>
+<div class="modal fade" id="view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelView"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelView">View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Tên bài hát</th>
+                        <th scope="col">Ca sĩ trình bày</th>
+                        <th scope="col">Thể loại</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><p id="name" ></p></td>
+                        <td><p id="singer" ></p></td>
+                        <td><p id="type" ></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><audio id="path" controls style="width: 100%;"></audio></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%--login--%>
+<script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
 <div w3-include-html="/bootstrap/form/footer.html"></div>
+<script>
+    function viewModal(name, singer, type, path) {
+        document.getElementById("name").innerText = name;
+        document.getElementById("singer").innerText = singer;
+        document.getElementById("type").innerText = type;
+        document.getElementById("path").src = path;
+    }
+</script>
 <script>
     includeHTML();
 </script>
