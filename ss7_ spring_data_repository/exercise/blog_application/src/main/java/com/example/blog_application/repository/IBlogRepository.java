@@ -16,6 +16,7 @@ public interface IBlogRepository extends PagingAndSortingRepository<Blog, Intege
     @Query(value = "select * from blog_table",nativeQuery = true)
     Page<Blog> findAll(Pageable pageable);
 
+
     @Modifying
     @Query(value = "INSERT INTO blog_table (title, content, posting_date,id_category) VALUES (:title, :content, :date, :category)",
             nativeQuery = true)

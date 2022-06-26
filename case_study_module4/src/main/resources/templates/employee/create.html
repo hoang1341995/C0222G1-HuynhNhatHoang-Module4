@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /*loop through a collection of all HTML elements:*/
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("w3-include-html");
+                        includeHTML();
+                    }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+            }
+        }
+    };
+</script>
+<body>
+<div w3-include-html="/bootstrap/form/header.html"></div>
+<div w3-include-html="/bootstrap/form/nav-bar.html"></div>
+
+<div class="container-fluid d-flex">
+    <div class="left col-2">
+        left
+    </div>
+    <div class="left col-8">
+        <h1>Thêm mới nhân viên</h1>
+
+        <form method="post" th:action="@{save}" th:object="${employee}">
+            <div class="d-flex">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Tên nhân viên</label>
+                        <input type="text" class="form-control" th:field="*{name}"
+                               placeholder="Nhập tên nhân viên">
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Sinh</label>
+                        <input placeholder="Selected date" type="date" th:field="*{birthday}"
+                               class="form-control datepicker">
+                    </div>
+                    <div class="form-group">
+                        <label>Số CMND</label>
+                        <input type="text" class="form-control" th:field="*{idCard}"
+                               placeholder="Nhập số CMND">
+                    </div>
+                    <div class="form-group">
+                        <label>Số Điện thoại</label>
+                        <input type="text" class="form-control" th:field="*{phone}"
+                               placeholder="Nhập số Điện thoại">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" th:field="*{email}"
+                               placeholder="Nhập Email">
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input type="text" class="form-control" th:field="*{address}"
+                               placeholder="Nhập địa chỉ">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Lương</label>
+                        <input type="number" class="form-control" th:field="*{salary}"
+                               placeholder="Nhập lương" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Chức vụ</label>
+                        <select class="custom-select" th:field="*{position}">
+                            <option th:each="position : ${positionList}" th:value="${position.id}" th:text="${position.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Trình độ</label>
+                        <select class="custom-select" th:field="*{education}">
+                            <option th:each="education : ${educationList}" th:value="${education.id}" th:text="${education.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bộ phận</label>
+                        <select class="custom-select" th:field="*{division}">
+                            <option th:each="division : ${divisionList}" th:value="${division.id}" th:text="${division.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên tài khoản</label>
+                        <input type="text" class="form-control" th:field="*{user}"
+                               placeholder="Nhập tên tài khoản">
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label>Mật khẩu</label>-->
+<!--                        <input type="password" class="form-control" name="password" value="${employee.password}"-->
+<!--                               placeholder="Nhập mật khẩu">-->
+<!--                    </div>-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Xác nhận</button>
+            </div>
+        </form>
+
+
+
+    </div>
+    <div class="left col-2">
+        right
+    </div>
+</div>
+<script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<div w3-include-html="/bootstrap/form/footer.html"></div>
+<script>
+    includeHTML();
+</script>
+</body>
+</html>
