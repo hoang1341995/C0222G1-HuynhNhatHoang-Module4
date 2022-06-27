@@ -108,8 +108,10 @@
                     </div>
                     <div class="form-group">
                         <label>Tên tài khoản</label>
-                        <input type="text" class="form-control" th:field="*{user}"
-                               placeholder="Nhập tên tài khoản">
+                        <select class="custom-select" th:field="*{user}">
+                            <option th:each="division : ${divisionList}" th:value="${user.username}" th:text="${user.username}">
+                            </option>
+                        </select>
                     </div>
 <!--                    <div class="form-group">-->
 <!--                        <label>Mật khẩu</label>-->

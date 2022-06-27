@@ -45,10 +45,10 @@ public class EmployeeController {
     @GetMapping(value = "/create")
     public String showCreate(Model model) {
         model.addAttribute("employee", new Employee());
-        model.addAttribute("user", new User());
         model.addAttribute("positionList", iPositionService.findAll());
         model.addAttribute("educationList", iEducationService.findAll());
         model.addAttribute("divisionList", iDivisionService.findAll());
+        model.addAttribute("userList", iUserService.findAll());
         return "employee/create";
     }
 
