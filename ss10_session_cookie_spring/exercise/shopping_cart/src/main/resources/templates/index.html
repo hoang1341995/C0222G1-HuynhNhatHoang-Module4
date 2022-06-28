@@ -149,12 +149,13 @@
                     <tbody>
                     <tr th:each="product: ${cart.products}">
                         <th th:text="${product.getKey().getName()}"></th>
-                        <td >
+                        <td>
                             <div class="d-flex" >
-                            <button type="button" class="btn btn-outline-primary">-</button>
+                            <a type="button" class="btn btn-outline-primary" th:href="@{/{id}/{value}(id=${product.getKey().getId()},value=0)}">-</a>
                             <input type="text" class="form-control col-1" th:value="${product.getValue()}">
-                            <button type="button" class="btn btn-outline-primary">+</button>
-                        </div></td>
+                            <a type="button" class="btn btn-outline-primary" th:href="@{/{id}/{value}(id=${product.getKey().getId()},value=1)}">+</a>
+                        </div>
+                        </td>
                         <td th:text="${product.getKey().getPrice()}"></td>
                     </tr>
                     <tr>
