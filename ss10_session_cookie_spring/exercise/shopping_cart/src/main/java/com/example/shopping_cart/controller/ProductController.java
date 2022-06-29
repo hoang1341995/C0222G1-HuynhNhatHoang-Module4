@@ -59,4 +59,12 @@ public class ProductController {
         redirect.addFlashAttribute("messModal", "$(`#shoppingCart`).modal()");
         return "redirect:/";
     }
+
+    @GetMapping("/{id}")
+    public String deleteProduct(@SessionAttribute("cart") Cart cart, @PathVariable("id") Long id, RedirectAttributes redirect) {
+        Optional<Product> productOptional = productService.findById(id);
+        cart.deleteProduct(productOptional.get());
+        redirect.addFlashAttribute("messModal", "$(`#shoppingCart`).modal()");
+        return "redirect:/";
+    }
 }
