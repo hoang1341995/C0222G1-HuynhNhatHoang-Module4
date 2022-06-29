@@ -11,4 +11,9 @@ public interface ICategoryService {
     List<Category> findAll();
 
     Page<Category> findAll(Pageable pageable);
+
+
+    Category findByName(String name );
+
+
 }

@@ -19,6 +19,9 @@ public interface ICategoryRepository extends PagingAndSortingRepository<Category
     @Query(value = "select * from category",nativeQuery = true)
     Page<Category> findAll(Pageable pageable);
 
+    @Query(value = "select * from category where name = :name",nativeQuery = true)
+    Category findByName(@Param("name") String name);
+
     @Query(value = "SELECT * FROM category WHERE name = :name", nativeQuery = true)
     Integer searchIdByName(@Param("name") String name);
 

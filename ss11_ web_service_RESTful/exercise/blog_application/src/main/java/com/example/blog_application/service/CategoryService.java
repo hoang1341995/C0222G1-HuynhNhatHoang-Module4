@@ -24,4 +24,9 @@ public class CategoryService implements ICategoryService{
         return iCategoryRepository.findAll(pageable);
     }
 
+    @Override
+    public Category findByName(String name) {
+        return iCategoryRepository.findByName(name);
+    }
+
 }

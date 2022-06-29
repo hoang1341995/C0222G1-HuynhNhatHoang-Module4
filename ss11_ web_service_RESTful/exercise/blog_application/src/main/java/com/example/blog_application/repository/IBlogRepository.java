@@ -10,12 +10,16 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 public interface IBlogRepository extends PagingAndSortingRepository<Blog, Integer> {
 
     @Query(value = "select * from blog_table",nativeQuery = true)
     Page<Blog> findAll(Pageable pageable);
+
+    @Query(value = "select * from blog_table",nativeQuery = true)
+    List<Blog> findAll();
 
 
     @Modifying

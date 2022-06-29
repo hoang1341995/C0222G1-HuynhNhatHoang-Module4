@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("json")
@@ -27,7 +29,7 @@ public class BlogRestController {
     @GetMapping(value = "/category")
     public Page<Category> returnCategory(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("id").ascending();
-        Page<Category> list = iCategoryService.findAll(PageRequest.of(page, 2, sort));
+        Page<Category> list = iCategoryService.findAll(PageRequest.of(page, 10, sort));
         return list;
     }
     @GetMapping(value = "/view")
@@ -39,20 +41,16 @@ public class BlogRestController {
     }
 
     @GetMapping(value = "/posts")
-    public Page<Blog> returnPosts(@RequestParam(name = "page", defaultValue = "0") int page,
-                                  @RequestParam(name = "category", defaultValue = "") String categorys) {
-        Sort sort = Sort.by("posting_date").ascending();
-        Page<Blog> list;
-        if (!categorys.equals("")){
-            list = iBlogService.findPostByCategory(categorys, PageRequest.of(page, 2, sort));
-
-        }else{
-            list = iBlogService.findAll(PageRequest.of(page, 2, sort));
-        }
-        return list;
+    public ResponseEntity<?> returnPosts(@RequestParam(name = "category", defaultValue = "") String categorys) {
+        Set<Blog> blogset;
+        blogset = iCategoryService.findByName(categorys).getBlogs();
+        return new ResponseEntity<>(blogset, HttpStatus.OK);
     }
 
-
-
+    @GetMapping(value = "/all")
+    public ResponseEntity<?> returnPostAll() {
+        List<Blog> list = iBlogService.findAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
 }
