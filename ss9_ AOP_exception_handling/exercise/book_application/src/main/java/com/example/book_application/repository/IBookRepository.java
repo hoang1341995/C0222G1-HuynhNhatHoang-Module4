@@ -16,14 +16,9 @@ public interface IBookRepository extends PagingAndSortingRepository<Book, Intege
 
     List<Book> findAll();
 
-//    @Query(value = "select * from blog_table",nativeQuery = true)
-//    Page<Blog> findAll(Pageable pageable);
-//
-
-//
     @Query(value = "SELECT book_amount FROM book_model WHERE book_id = :id", nativeQuery = true)
     Integer getMountOfBook(@Param("id") Integer id);
-//
+
     @Modifying
     @Query(value = "UPDATE book_model SET book_amount = :newAmount WHERE book_id = :id",
             nativeQuery = true)
@@ -37,12 +32,5 @@ public interface IBookRepository extends PagingAndSortingRepository<Book, Intege
     @Query(value = "DELETE FROM user WHERE user_code = :code", nativeQuery = true)
     void removeGiveBook(@Param("code") Integer code);
 
-//
-//    @Query(value = "SELECT * FROM blog_table WHERE title LIKE :title", nativeQuery = true)
-//    Page<Blog> searchByName(@Param("title") String title,Pageable pageable);
-//
-//    @Modifying
-//    @Query(value = "DELETE FROM blog_table WHERE id = :id", nativeQuery = true)
-//    void remove(@Param("id") int id);
 
 }
