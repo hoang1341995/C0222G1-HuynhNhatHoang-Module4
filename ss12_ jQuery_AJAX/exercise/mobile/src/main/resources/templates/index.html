@@ -299,23 +299,19 @@
                 "description": descriptionEdit
             }
             $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/text'
+                type : "POST",
+                url : "/edit",
+                dataType : "text",
+                contentType: "application/json",
+                data : JSON.stringify(jsonText),
+                success : function() {
+                    document.getElementById("messEdit").innerText = "sửa thành công";
                 },
-                type: "POST",
-                data: JSON.stringify(jsonText),
-                url: "/edit",
-                success: function (event) {
-                    document.getElementById("messEdit").innerText = event;
-                },
-                error: function (event){
-                    document.getElementById("messEdit").innerText = event;
+                error : function(error) {
+                    document.getElementById("messEdit").innerText = "thất bại";
                 }
-
             });
-            //chặn sự kiện mặc định của thẻ
-            event.preventDefault();
+            
         });
     })
 </script>

@@ -52,7 +52,7 @@ public class ProductController {
     @PostMapping("/edit")
     public ResponseEntity<?> editProduct(@RequestBody Product product) {
         productService.save(product);
-        return new ResponseEntity<>("thành công", HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/{value}")
