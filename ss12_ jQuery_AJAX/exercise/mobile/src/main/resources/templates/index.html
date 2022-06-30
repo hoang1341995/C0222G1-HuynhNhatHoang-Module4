@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /*loop through a collection of all HTML elements:*/
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {
+                            elmnt.innerHTML = this.responseText;
+                        }
+                        if (this.status == 404) {
+                            elmnt.innerHTML = "Page not found.";
+                        }
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("w3-include-html");
+                        includeHTML();
+                    }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+            }
+        }
+    };
+</script>
+<body>
+<div w3-include-html="/bootstrap/form/header.html"></div>
+<div w3-include-html="/bootstrap/form/nav-bar.html"></div>
+<div class="container-fluid d-flex">
+    <div class="left col-2">
+        left
+    </div>
+    <div class="left col-8">
+        <div class="d-flex m-2">
+            <div class="col-8">
+                <h1>Danh sách Sách</h1>
+            </div>
+            <div class="col-4 m-2">
+                <form th:action="@{/search}" method="get" novalidate="novalidate">
+
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm " name="name"
+                               aria-label="Tìm kiếm "
+                               value="" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="col-10">
+            </div>
+            <div class="col-2 text-right">
+                <button type="button" class="btn btn-outline-success" style="margin-right: 2px"
+                        data-toggle="modal" data-target="#shoppingCart">Giỏ hàng
+                </button>
+            </div>
+        </div>
+        <div class="d-flex text-center">
+            <div class="card m-2" style="width: 18rem;" th:each="row : ${productList}">
+                <div data-toggle="modal" data-target="#viewModal"
+                     th:attr="onclick=|view('${row.getId}', '${row.getName}'
+                            , '${row.getPrice}', '${row.getUrl}', '${row.getDescription}')|">
+                    <div class="card-header" th:text="${row.getName()}"></div>
+                    <img class="card-img-top" th:src="${row.getUrl()}" alt="Card image product">
+                    <div class="card-body">
+                        <p class="card-text" th:text="${'Giá '+row.getPrice()}+' USD'"
+                           style="font-weight: bold;color: red"></p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" th:text="${row.getDescription()}"></small>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#editProduct"
+                        th:attr="onclick=|edit('${row.getId}', '${row.getName}'
+                            , '${row.getPrice}', '${row.getUrl}', '${row.getDescription}')|" >Sửa sản phẩm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="left col-2">
+    right
+</div>
+</div>
+<!-- Modal view -->
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMess"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelMess">Chi tiết sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+
+                <div class="card-header" id="viewName" style="font-weight: bold;"></div>
+                <img class="card-img-top" id="viewUrl" alt="Card image product">
+                <div class="card-body">
+                    <p class="card-text" id="viewPrice" style="font-weight: bold;color: red"></p>
+                    <div class="d-flex" style="justify-content: space-around;">
+                        <button type="button" class="btn btn-outline-primary" disabled>-</button>
+                        <input type="text" class="form-control col-1" value="1" disabled>
+                        <button type="button" class="btn btn-outline-primary" disabled>+</button>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted" id="viewDescription"></small>
+                </div>
+                <div class="form-group">
+                    <form method="post" action="/addCart">
+                        <input hidden type="text" id="idCart" name="idCart">
+                        <button type="submit" class="btn btn-dark btn-block mb-4">Thêm vào giỏ hàng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal view -->
+<!-- Modal Shopping Cart -->
+<div class="modal fade bd-example-modal-lg" id="shoppingCart" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabeladdNew">Giỏ hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product: ${cart.products}">
+                        <th th:text="${product.getKey().getName()}"></th>
+                        <td>
+                            <div class="d-flex">
+                                <a type="button" class="btn btn-outline-primary"
+                                   th:href="@{/{id}/{value}(id=${product.getKey().getId()},value=0)}">-</a>
+                                <input type="text" class="form-control col-1" th:value="${product.getValue()}">
+                                <a type="button" class="btn btn-outline-primary"
+                                   th:href="@{/{id}/{value}(id=${product.getKey().getId()},value=1)}">+</a>
+                                <a type="button" class="btn btn-outline-danger"
+                                   th:href="@{/{id}(id=${product.getKey().getId()})}">xóa</a>
+                            </div>
+                        </td>
+                        <td th:text="${product.getKey().getPrice()}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Tổng tiền</td>
+                        <td style="font-weight: bold;" th:text="${cart.countTotalPayment()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <form method="post" action="/pay">
+                        <button type="submit" class="btn btn-dark btn-block mb-4">Thanh toán</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Shopping Cart -->
+<!-- Modal mess -->
+<div class="modal fade" id="messModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMess1"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelMess1">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p th:text="${mess}" id="message"></p>
+                <div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal mess -->
+<!-- Modal editProduct -->
+<div class="modal fade bd-example-modal-lg" id="editProduct" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabeladdeditProduct">Sửa Thông tin điện thoại</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="messEdit"></p>
+                <div class="form-group">
+                    <input hidden type="text"  id="idEdit" name="idEdit">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" class="form-control" id="nameEdit" name="nameEdit" placeholder="Nhập tên sản phẩm">
+                </div>
+                <div class="form-group">
+                    <label>Giá</label>
+                    <input type="number" class="form-control" id="priceEdit" name="priceEdit" placeholder="Nhập giá">
+                </div>
+                <div class="form-group">
+                    <label>Đường dẫn hình ảnh</label>
+                    <input type="text" class="form-control" id="urlEdit" name="urlEdit" placeholder="Nhập đường dẫn">
+                </div>
+                <div class="form-group">
+                    <label>Mô tả sản phẩm</label>
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="buttonEdit" class="btn btn-primary btn-block mb-4">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal editProduct -->
+<script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<div w3-include-html="/bootstrap/form/footer.html"></div>
+<script>
+    [[${messModal}]];
+    [[${giveBackModal}]];
+
+    function view(id, name, price, url, description) {
+        document.getElementById("idCart").value = id;
+        document.getElementById("viewName").innerText = name;
+        document.getElementById("viewUrl").src = url;
+        document.getElementById("viewPrice").innerText = "Giá " + price + " USD";
+        document.getElementById("viewDescription").innerText = description;
+    }
+    function edit(id, name, price, url, description) {
+        document.getElementById("idEdit").value = id;
+        document.getElementById("nameEdit").value = name;
+        document.getElementById("priceEdit").value = price;
+        document.getElementById("urlEdit").value = url;
+        document.getElementById("descriptionEdit").value = description;
+
+    }
+
+    function borrow(id, code, name, author, publicationDate, amount) {
+        document.getElementById("book").value = id;
+        document.getElementById("bodyBorrow").innerHTML = "Mã sách: <b style='color: #005cbf'>" + code + "</b><br>" +
+            "Tên sách: <b style='color: #005cbf'>" + name + "</b><br>" +
+            "Tác giả: <b style='color: #005cbf'>" + author + "</b><br>" +
+            "Ngày suất bản: <b style='color: #005cbf'>" + publicationDate + "</b><br>" +
+            "Số lượng: <b style='color: #005cbf'>" + amount + "</b>";
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#buttonEdit').click(function (event) {
+            var idEdit = document. getElementById("idEdit").value;
+            var nameEdit = document. getElementById("nameEdit").value;
+            var priceEdit = document. getElementById("priceEdit").value;
+            var urlEdit = document. getElementById("urlEdit").value;
+            var descriptionEdit = document. getElementById("descriptionEdit").value;
+            var jsonText = {
+                "id": idEdit,
+                "name": nameEdit,
+                "price": priceEdit,
+                "url": urlEdit,
+                "description": descriptionEdit
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/text'
+                },
+                type: "POST",
+                data: JSON.stringify(jsonText),
+                url: "/edit",
+                success: function (event) {
+                    document.getElementById("messEdit").innerText = event;
+                },
+                error: function (event){
+                    document.getElementById("messEdit").innerText = event;
+                }
+
+            });
+            //chặn sự kiện mặc định của thẻ
+            event.preventDefault();
+        });
+    })
+</script>
+<script>
+    includeHTML();
+</script>
+</body>
+</html>
