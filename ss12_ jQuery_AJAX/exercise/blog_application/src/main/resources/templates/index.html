@@ -146,9 +146,8 @@
                 //tên API
                 url: `/ajaxSearch/${key}`,
                 success: function (data) {
-                    let content = '';"+blogs.id+"
+                    let content = '';
                     for (let i = 0; i < data.length; i++) {
-                        console.log(data[i].title)
                         content += getBlogs(data[i]);
                     }
                     document.getElementById('bodyTable').innerHTML = content;
@@ -171,24 +170,38 @@
         "       <td >"+blogs.date+"</td>"+
         "       <td >"+blogs.category.name+"</td>"+
         "       <td>"+
-        "       <a type='button' className='btn btn-outline-primary' href='/"+blogs.id+"/edit'>Edit</a>"+
-        "       <a type='button' className='btn btn-outline-info' href='/"+blogs.id+"/view'>View</a>"+
-        "<a type='button' className='btn btn-outline-danger' href='/"+blogs.id+"/delete'>Delete</a>"+
+        "       <a type='button' class='btn btn-outline-primary' href='/"+blogs.id+"/edit'>Edit</a>"+
+        "       <a type='button' class='btn btn-outline-info' href='/"+blogs.id+"/view'>View</a>"+
+        "<a type='button' class='btn btn-outline-danger' href='/"+blogs.id+"/delete'>Delete</a>"+
         "</td>"+
               "</tr>";
     }
 
-    // <td th:text="${row.getId()}"></td>
-    // <td th:text="${row.getTitle()}"></td>
-    // <td th:text="${row.getContent()}"></td>
-    // <td th:text="${row.getDate()}"></td>
-    // <td th:text="${row.getCategory.getName()}"></td>
-    // <td>
-    //     <a type="button" className="btn btn-outline-primary" th:href="@{/{id}/edit(id=${row.getId()})}">Edit</a>
-    //     <a type="button" className="btn btn-outline-info" th:href="@{/{id}/view(id=${row.getId()})}">View</a>
-    //     <a type="button" className="btn btn-outline-danger"
-    //        th:href="@{/{id}/delete(id=${row.getId()})}">Delete</a>
-    // </td>
+    var downloadMoveNumber = 2;
+    $(document).ready(function () {
+        $('#downloadMoreButton').click(function (event) {
+            downloadMoveNumber = downloadMoveNumber + 2;
+            $.ajax({
+                type: "GET",
+                //tên API
+                url: `/downloadMove/${downloadMoveNumber}`,
+                success: function (data) {
+                    let content = '';
+                    for (let i = 0; i < data.content.length; i++) {
+                        content += getBlogs(data.content[i]);
+                    }
+                    document.getElementById('bodyTable').innerHTML = content;
+                },
+                error : function() {
+                    document.getElementById("message").innerHTML = "<p style='font-weight: bold;color: red'>Lỗi tải thêm bài viết</p>";
+                    $('#messModal').modal('show')
+                }
+
+            });
+            event.preventDefault();
+        });
+    })
+
 </script>
 <script>
     includeHTML();

@@ -91,7 +91,13 @@ public class BlogController {
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
 
+    @GetMapping(value = "/downloadMove/{value}")
+        public ResponseEntity<?> downloadMove(@PathVariable int value) {
+        Sort sort = Sort.by("posting_date").ascending();
+        Page<Blog> list = iBlogService.findAll(PageRequest.of(0, value, sort));
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
 }
