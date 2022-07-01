@@ -1,9 +1,11 @@
 package com.example.case_study_module4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "education")
+@Entity(name = "education_table")
 public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +16,7 @@ public class Education {
     private String name;
 
     @OneToMany(mappedBy = "education")
+    @JsonBackReference(value = "education")
     private Set<Employee> employees;
 
     public Education() {

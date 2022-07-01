@@ -1,20 +1,21 @@
 package com.example.case_study_module4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "user")
+@Entity(name = "user_table")
 public class User {
 
     @Id
     private String username;
 
-    @ColumnDefault(value = "abc@123")
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference(value = "user")
     private Set<Employee> employees;
 
     public User() {

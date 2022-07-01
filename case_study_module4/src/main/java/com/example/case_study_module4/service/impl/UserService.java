@@ -30,6 +30,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void save(User user) {
+        iUserRepository.save(user);
+    }
+
+    @Override
     public void remove(String name) {
         iUserRepository.deleteById(name);
     }

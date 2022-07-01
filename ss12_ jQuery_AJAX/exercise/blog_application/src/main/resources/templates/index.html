@@ -100,7 +100,7 @@
             <div class="col-10">
             </div>
             <div class="col-2 text-right">
-                <button type="button" class="btn btn-outline-warning" id="downloadMoreButton" style="margin-right: 2px" >Tải thêm</button>
+                <button type="button" class="btn btn-outline-dark" id="downloadMoreButton" style="margin-right: 2px" >Tải thêm</button>
                 </div>
             </div>
         </div>
@@ -178,6 +178,7 @@
     }
 
     var downloadMoveNumber = 2;
+    var checkTable = "";
     $(document).ready(function () {
         $('#downloadMoreButton').click(function (event) {
             downloadMoveNumber = downloadMoveNumber + 2;
@@ -190,7 +191,12 @@
                     for (let i = 0; i < data.content.length; i++) {
                         content += getBlogs(data.content[i]);
                     }
-                    document.getElementById('bodyTable').innerHTML = content;
+                    if (content !== checkTable ){
+                        checkTable = content;
+                        document.getElementById('bodyTable').innerHTML = content;
+                    }else{
+                        document.getElementById('downloadMoreButton').disabled = true;
+                    }
                 },
                 error : function() {
                     document.getElementById("message").innerHTML = "<p style='font-weight: bold;color: red'>Lỗi tải thêm bài viết</p>";

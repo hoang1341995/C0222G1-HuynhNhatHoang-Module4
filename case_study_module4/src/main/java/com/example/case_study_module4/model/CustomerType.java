@@ -1,5 +1,7 @@
 package com.example.case_study_module4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class CustomerType {
     private String name;
 
     @OneToMany(mappedBy = "customerType")
+    @JsonBackReference(value = "customerType")
     private Set<Customer> customers;
 
     public CustomerType() {

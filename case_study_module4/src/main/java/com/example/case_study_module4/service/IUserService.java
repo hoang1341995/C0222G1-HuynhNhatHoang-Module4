@@ -13,6 +13,8 @@ public interface IUserService {
 
     void update(User user);
 
+    void save(User user);
+
     void remove(String name);
 
 }
