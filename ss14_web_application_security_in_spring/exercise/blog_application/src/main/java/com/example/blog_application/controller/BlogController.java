@@ -1,105 +1,79 @@
 package com.example.blog_application.controller;
 
-import com.example.blog_application.model.Blog;
-import com.example.blog_application.service.IBlogService;
-import com.example.blog_application.service.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.WebUtils;
 
-import java.util.List;
+import java.security.Principal;
 
 @Controller
 public class BlogController {
 
-    @Autowired
-    private IBlogService iBlogService;
 
-    @Autowired
-    private ICategoryService iCategoryService;
-
-    @GetMapping(value = "/")
-    public String showIndex(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-       Sort sort = Sort.by("posting_date").ascending();
-        Page<Blog> list = iBlogService.findAll(PageRequest.of(page, 2, sort));
-        model.addAttribute("blogList",list);
-        return "index";
+    @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
+    public String welcomePage(Model model) {
+        model.addAttribute("title", "Welcome");
+        model.addAttribute("message", "This is welcome page!");
+        return "welcomePage";
     }
 
-    @GetMapping(value = "/create")
-    public String showCreate(Model model) {
-        model.addAttribute("blog", new Blog());
-        model.addAttribute("categoryList", iCategoryService.findAll());
-        return "create";
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Model model) {
+        return "loginPage";
     }
 
-    @PostMapping("/save")
-    public String saveBlog(Blog blog, RedirectAttributes redirect) {
-        iBlogService.save(blog);
-        redirect.addFlashAttribute("mess", "Thêm thành công");
-        return "redirect:/";
+    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
+    public String logoutSuccessfulPage(Model model) {
+        model.addAttribute("title", "Logout");
+        return "logoutSuccessfulPage";
     }
 
-    @GetMapping(value = "/{id}/edit")
-    public String editBlog(@PathVariable Integer id, Model model) {
-        model.addAttribute("blogFindById", iBlogService.findById(id));
-        model.addAttribute("categoryList", iCategoryService.findAll());
-        return "edit";
-    }
+    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+    public String userInfo(Model model, Principal principal) {
 
-    @PostMapping("/update")
-    public String updateBlog(Blog blog, RedirectAttributes redirect) {
-        iBlogService.update(blog);
-        redirect.addFlashAttribute("mess", "Sửa thành công");
-        return "redirect:/";
-    }
+        // Sau khi user login thanh cong se co principal
+        String userName = principal.getName();
 
-    @GetMapping(value = "/{id}/view")
-    public String viewBlog(@PathVariable Integer id, Model model) {
-        model.addAttribute("blog", iBlogService.findById(id));
-        return "view";
-    }
+        System.out.println("User Name: " + userName);
 
-    @GetMapping("{id}/delete")
-    public String deleteBlog(@PathVariable Integer id, RedirectAttributes redirect) {
-        iBlogService.remove(id);
-        redirect.addFlashAttribute("mess", "xoá thành công");
-        return "redirect:/";
-    }
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
 
-    @GetMapping("/search")
-    public String searchByName(@RequestParam(name = "page", defaultValue = "0") int page,String name, Model model) {
-        Sort sort = Sort.by("posting_date").ascending();
-        Page<Blog> blogList = iBlogService.searchByName(name,PageRequest.of(page, 2, sort));
-        model.addAttribute("blogList", blogList);
-        return "index";
-    }
+        String userInfo = WebUtils.toString(loginedUser);
+        model.addAttribute("userInfo", userInfo);
 
-    @GetMapping("/ajaxSearch/{key}")
-    public ResponseEntity<?> ajaxSearch(@PathVariable String key) {
-        System.out.println(key);
-        List<Blog> list = iBlogService.ajaxSearchByName(key);
-        if (!list.isEmpty()){
-            return new ResponseEntity<>(list,HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return "userInfoPage";
+    }
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String accessDenied(Model model, Principal principal) {
+        if (principal != null) {
+            User loginedUser = (User) ((Authentication) principal).getPrincipal();
+
+            String userInfo = WebUtils.toString(loginedUser);
+
+            model.addAttribute("userInfo", userInfo);
+
+            String message = "Hi " + principal.getName() //
+                    + "<br> You do not have permission to access this page!";
+            model.addAttribute("message", message);
+
         }
+
+        return "403Page";
     }
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String adminPage(Model model, Principal principal) {
 
-    @GetMapping(value = "/downloadMove/{value}")
-        public ResponseEntity<?> downloadMove(@PathVariable int value) {
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
 
-        Sort sort = Sort.by("posting_date").ascending();
-        Page<Blog> list = iBlogService.findAll(PageRequest.of(0, value, sort));
+        String userInfo = WebUtils.toString(loginedUser);
+        model.addAttribute("userInfo", userInfo);
 
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        return "adminPage";
     }
 
 }

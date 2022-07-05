@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        //Tìm đối tượng đang đăng nhập trong DB
+       //Tìm đối tượng đang đăng nhập trong DB
         AppUser appUser = this.appUserRepository.findByUserName(userName);
 
         if (appUser == null) {
@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userRoles != null) {
             for (UserRole userRole : userRoles) {
                 // ROLE_USER, ROLE_ADMIN,..
-                GrantedAuthority authority = new SimpleGrantedAuthority(userRole.getAppRole().getRoleName()); //ROLE_ADMIN, ROLE_USER
+                GrantedAuthority authority = new SimpleGrantedAuthority(userRole.getAppRole().getRoleName());
                 grantList.add(authority);
             }
         }

@@ -33,17 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
 
-
-        http.authorizeRequests()
-                .antMatchers("/userInfo","student/list")
-                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-
-        http.authorizeRequests()
-                .antMatchers("/admin")
-                .access("hasRole('ROLE_ADMIN')");
-
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403Page");
-
         // Cấu hình cho Login Form.
         http.authorizeRequests().and().formLogin()//
                 // Submit URL của trang login
