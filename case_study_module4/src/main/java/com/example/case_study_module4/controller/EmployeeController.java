@@ -70,7 +70,7 @@ public class EmployeeController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping(value = "delete/{idDelete}")
+    @GetMapping(value = "/delete/{idDelete}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Integer idDelete) {
         iEmployeeService.remove(idDelete);
         Sort sort = Sort.by("id").ascending();
@@ -78,13 +78,15 @@ public class EmployeeController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-
-    @PostMapping("/search")
-    public String searchByName(@RequestParam(name = "key") String name,@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+    @GetMapping(value = "/search/{key}")
+    public ResponseEntity<?> searchEmployee(@PathVariable String key) {
         Sort sort = Sort.by("employee_name").ascending();
-        Page<Employee> list = iEmployeeService.searchByName(name, PageRequest.of(page, 2, sort));
-        model.addAttribute("employeeList", list);
-        return "index";
+        Page<Employee> list = iEmployeeService.searchByName(key, PageRequest.of(0, 100, sort));
+        if (!list.isEmpty()){
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

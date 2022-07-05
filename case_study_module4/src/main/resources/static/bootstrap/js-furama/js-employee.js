@@ -21,6 +21,7 @@ function editModal(id, name, birthday, idCard, phone, email, address, position, 
 }
 
 
+//addnew
 $(document).ready(function () {
     $('#buttonAddNewEmployee').click(function (event) {
         var username = document.getElementById("username").value;
@@ -91,6 +92,7 @@ $(document).ready(function () {
     });
 })
 
+//edit
 $(document).ready(function () {
     $('#buttonEditEmployee').click(function (event) {
         var id = document.getElementById("idEdit").value;
@@ -152,6 +154,7 @@ $(document).ready(function () {
     });
 })
 
+// loop
 function getelement(elements) {
     return `<tr>`+
         `       <td >`+elements.id+`</td>`+
@@ -176,7 +179,7 @@ function getelement(elements) {
     `onclick="deleteModal('`+elements.id+`','`+elements.name+`')" >Xóa</button></td></tr>`;
 }
 
-
+// delete
 $(document).ready(function () {
     $('#buttonDelete').click(function (event) {
         var idDelete = document.getElementById("idDelete").value;
@@ -192,6 +195,29 @@ $(document).ready(function () {
                 }
                 document.getElementById('bodyTable').innerHTML = content;
                 document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
+            }
+        });
+        event.preventDefault();
+    });
+})
+
+// search
+$(document).ready(function () {
+    $('#buttonSearch').click(function (event) {
+        var key = document.getElementById("key").value;
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: `/employee/search/${key}`,
+            success: function (data) {
+                let content = '';
+                for (let i = 0; i < data.content.length; i++) {
+                    content += getelement(data.content[i]);
+                }
+                document.getElementById('bodyTable').innerHTML = content;
+            },
+            error : function() {
+                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: red'>Không tìm thấy</h4>";
             }
         });
         event.preventDefault();
