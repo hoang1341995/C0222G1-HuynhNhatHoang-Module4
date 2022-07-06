@@ -1,4 +1,4 @@
-package com.example.case_study_module4.model;
+package com.example.case_study_module4.model.employee;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

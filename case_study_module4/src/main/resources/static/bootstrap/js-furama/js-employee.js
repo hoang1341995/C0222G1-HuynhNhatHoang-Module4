@@ -1,4 +1,4 @@
-function deleteModal(id, name) {
+function deleteModalEmployee(id, name) {
     document.getElementById("idDelete").value = id;
     document.getElementById("bodyDeleteEmployee").innerHTML = "ID nhân viên: <b style='color: #005cbf'>" + id + "</b><br>" +
         "Tên nhân viên <b style='color: #005cbf'>" + name + "</b><br>" +
@@ -77,7 +77,7 @@ $(document).ready(function () {
                         $('#addNew').modal('hide')
                         let content = '';
                         for (let i = 0; i < data.content.length; i++) {
-                            content += getelement(data.content[i]);
+                            content += getelementEmployee(data.content[i]);
                         }
                         document.getElementById('bodyTable').innerHTML = content;
                         document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Thêm mới thành công</h4>";                    }
@@ -155,7 +155,7 @@ $(document).ready(function () {
 })
 
 // loop
-function getelement(elements) {
+function getelementEmployee(elements) {
     return `<tr>`+
         `       <td >`+elements.id+`</td>`+
         `       <td >`+elements.name+`</td>`+
@@ -191,7 +191,7 @@ $(document).ready(function () {
                 $('#delete').modal('hide')
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelement(data.content[i]);
+                    content += getelementEmployee(data.content[i]);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
                 document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";

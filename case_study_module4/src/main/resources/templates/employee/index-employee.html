@@ -5,43 +5,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<script>
-    function includeHTML() {
-        var z, i, elmnt, file, xhttp;
-        /*loop through a collection of all HTML elements:*/
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            /*search for elements with a certain atrribute:*/
-            file = elmnt.getAttribute("w3-include-html");
-            if (file) {
-                /*make an HTTP request using the attribute value as the file name:*/
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            elmnt.innerHTML = this.responseText;
-                        }
-                        if (this.status == 404) {
-                            elmnt.innerHTML = "Page not found.";
-                        }
-                        /*remove the attribute, and call this function once more:*/
-                        elmnt.removeAttribute("w3-include-html");
-                        includeHTML();
-                    }
-                }
-                xhttp.open("GET", file, true);
-                xhttp.send();
-                /*exit the function:*/
-                return;
-            }
-        }
-    };
-</script>
-<body>
-<div w3-include-html="/bootstrap/form/header.html"></div>
-<div w3-include-html="/bootstrap/form/nav-bar.html"></div>
-
+<th:block th:include="/form/header.html"></th:block>
+<th:block th:include="/form/nav-bar.html"></th:block>
+<body id="body">
 <div class="container-fluid d-flex">
     <div class="left col-12">
         <div class="d-flex m-2">
@@ -66,7 +32,7 @@
             <div class="col-10">
             </div>
             <div class="col-2 text-right">
-                <button type="button" class="btn btn-outline-info m-1" style="margin-right: 2px"  data-toggle="modal" data-target="#addNew">Thêm mới khách hàng
+                <button type="button" class="btn btn-outline-info m-1" style="margin-right: 2px"  data-toggle="modal" data-target="#addNew">Thêm mới nhân viên
                 </button>
             </div>
         </div>
@@ -109,7 +75,7 @@
                                                         , '${row.getAddress}', '${row.getPosition.getId}', '${row.getEducation.getId}'
                                                         , '${row.getDivision.getId}', '${row.getSalary}', '${row.getUser.getUsername}')|">Sửa</button>
                     <button type="button" class="btn btn-outline-danger m-1" data-toggle="modal" data-target="#delete"
-                            th:attr="onclick=|deleteModal('${row.getId}', '${row.getName}')|" >Xóa
+                            th:attr="onclick=|deleteModalEmployee('${row.getId}', '${row.getName}')|" >Xóa
                     </button>
                 </td>
 
@@ -123,7 +89,7 @@
 </div>
 
 <!-- Modal edit -->
-<div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -208,7 +174,7 @@
 </div>
 <!-- Modal edit -->
 <!-- Modal addNew -->
-<div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -302,11 +268,11 @@
 </div>
 <!-- Modal addNew -->
 <!-- Modal delete -->
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabeldelete" aria-hidden="true">
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabeldelete" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabeldelete">Xoá Khách hàng</h5>
+                <h5 class="modal-title" id="exampleModalLabeldelete">Xoá Nhân viên</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -323,12 +289,6 @@
     </div>
 </div>
 <!-- Modal delete -->
-<script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-<div w3-include-html="/bootstrap/form/footer.html"></div>
-<script src="/bootstrap/js-furama/js-employee.js"></script>
-<script>
-    includeHTML();
-</script>
 </body>
+<th:block th:include="/form/footer.html"></th:block>
 </html>

@@ -1,28 +1,28 @@
-package com.example.case_study_module4.model;
+package com.example.case_study_module4.model.employee;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "education_table")
-public class Education {
+@Entity(name = "position_table")
+public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "education_id")
+    @Column(name = "position_id")
     private Integer id;
 
-    @Column(name = "education_name")
+    @Column(name = "position_name")
     private String name;
 
-    @OneToMany(mappedBy = "education")
-    @JsonBackReference(value = "education")
+    @OneToMany(mappedBy = "position")
+    @JsonBackReference(value = "position")
     private Set<Employee> employees;
 
-    public Education() {
+    public Position() {
     }
 
-    public Education(Integer id, String name, Set<Employee> employees) {
+    public Position(Integer id, String name, Set<Employee> employees) {
         this.id = id;
         this.name = name;
         this.employees = employees;

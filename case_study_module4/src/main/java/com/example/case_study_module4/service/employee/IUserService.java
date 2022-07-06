@@ -1,6 +1,6 @@
-package com.example.case_study_module4.service;
+package com.example.case_study_module4.service.employee;
 
-import com.example.case_study_module4.model.User;
+import com.example.case_study_module4.model.employee.User;
 
 import java.util.List;
 import java.util.Optional;

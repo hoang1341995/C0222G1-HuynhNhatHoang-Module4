@@ -1,6 +1,6 @@
 package com.example.case_study_module4.repository;
 
-import com.example.case_study_module4.model.CustomerType;
+import com.example.case_study_module4.model.customer.CustomerType;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
