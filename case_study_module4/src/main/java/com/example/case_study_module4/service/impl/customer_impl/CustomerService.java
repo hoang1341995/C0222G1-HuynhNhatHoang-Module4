@@ -1,7 +1,7 @@
 package com.example.case_study_module4.service.impl.customer_impl;
 
 import com.example.case_study_module4.model.customer.Customer;
-import com.example.case_study_module4.repository.ICustomerRepository;
+import com.example.case_study_module4.repository.customer.ICustomerRepository;
 import com.example.case_study_module4.service.customer.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

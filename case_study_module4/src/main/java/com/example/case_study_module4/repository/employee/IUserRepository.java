@@ -1,4 +1,4 @@
-package com.example.case_study_module4.repository;
+package com.example.case_study_module4.repository.employee;
 
 import com.example.case_study_module4.model.employee.User;
 import org.springframework.data.repository.PagingAndSortingRepository;

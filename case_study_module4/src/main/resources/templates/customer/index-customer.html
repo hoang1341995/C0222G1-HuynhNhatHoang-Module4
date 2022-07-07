@@ -15,16 +15,13 @@
                 <h1>Danh sách khách hàng</h1>
             </div>
             <div class="col-4 m-2">
-                <form action="/customer/search" method="post">
-
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm khách hàng" name="key"
+                        <input type="text" class="form-control" placeholder="Tìm kiếm khách hàng" id="keySearchCustomer" name="keySearchCustomer"
                                aria-label="Tìm kiếm khách hàng" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+                            <button class="btn btn-outline-secondary" id="buttonSearchCustomer" type="button">Tìm kiếm</button>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
         <div id="message"></div>
@@ -35,7 +32,7 @@
             <div class="col-10">
             </div>
             <div class="col-2 text-right">
-                <a type="button" class="btn btn-outline-info" style="margin-right: 2px" href="/customer/create">Thêm mới khách hàng</a>
+                <button type="button" class="btn btn-outline-info" style="margin-right: 2px" data-toggle="modal" data-target="#addNew">Thêm mới khách hàng</button>
             </div>
         </div>
         <table id="tables" class="table table-striped table-bordered" style="width:100%">
@@ -54,7 +51,7 @@
                 <th>Tuỳ chọn</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="bodyTable">
             <tr th:each="row : ${customerList}">
                 <td th:text="${row.getId()}"></td>
                 <td th:text="${row.getCode()}"></td>
@@ -85,6 +82,74 @@
 
     </div>
 </div>
+<!-- Modal addnew -->
+<div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabeladdNew">Thêm mới khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex">
+                    <div class="col-6">
+                        <input type="text" hidden name="id" id="id">
+                        <div class="form-group">
+                            <label>Mã khách hàng</label>
+                            <input type="text" class="form-control" id="code" name="code" placeholder="Nhập mã khách hàng" >
+                        </div>
+                        <div class="form-group">
+                            <label>Tên khách hàng</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên khách hàng" >
+                        </div>
+                        <div class="form-group">
+                            <label>Loại khách hàng</label>
+                            <select class="custom-select" id="customerType" name="customerType">
+                                <option th:each="customerType : ${customerTypeList}" th:value="${customerType.id}" th:text="${customerType.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày Sinh</label>
+                            <input placeholder="Selected date" type="date" id="birthday" name="birthday" class="form-control datepicker" >
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <select class="custom-select" id="gender" name="gender" >
+                                <option th:value="'1'" th:text="Nam"></option>
+                                <option th:value="'0'" th:text="Nữ"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Số CMND</label>
+                            <input type="text" class="form-control"  id="idCard" name="idCard"  placeholder="Nhập số CMND" >
+                        </div>
+                        <div class="form-group">
+                            <label>Số Điện thoại</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số Điện thoại" >
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập Email" >
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" placeholder="Nhập điện chỉ"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark btn-block mb-4" id="buttonCreateCustomer" name="buttonCreateCustomer">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal addnew -->
 <!-- Modal edit -->
 <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-lg">
@@ -97,7 +162,7 @@
             </div>
             <div class="modal-body">
                     <input type="hidden" id="idEdit" name="idEdit"/>
-                    <input type="hidden" id="idEdit" name="idEdit"/>
+
                 <div class="d-flex">
                     <div class="col-6">
                     <div class="form-group">
@@ -147,7 +212,7 @@
                         <textarea class="form-control" id="addressEdit" name="addressEdit" rows="3" placeholder="Nhập điện chỉ"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-dark btn-block mb-4" id="buttonEditCustomer">Xác nhận</button>
+                        <button type="button" class="btn btn-dark btn-block mb-4" id="buttonEditCustomer">Xác nhận</button>
                     </div>
             </div>
         </div>
@@ -168,9 +233,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <input hidden type="text" name="idDelete" id="idDelete">
-                <button type="button" class="btn btn-danger" id="buttonDelete">Đồng ý</button>
-                </form>
+                <input hidden type="text" name="idDelete" id="idDeleteCustomer">
+                <button type="button" class="btn btn-danger" id="buttonDeleteCustomer">Đồng ý</button>
             </div>
         </div>
     </div>
@@ -178,4 +242,5 @@
 <!-- Modal delete -->
 </body>
 <th:block th:include="/form/footer.html"></th:block>
+<script src="/bootstrap/js-furama/js-customer.js"></script>
 </html>

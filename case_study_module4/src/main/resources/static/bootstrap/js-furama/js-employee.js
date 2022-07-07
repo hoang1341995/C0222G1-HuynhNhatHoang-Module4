@@ -24,6 +24,7 @@ function editModal(id, name, birthday, idCard, phone, email, address, position, 
 //addnew
 $(document).ready(function () {
     $('#buttonAddNewEmployee').click(function (event) {
+
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var jsonModel = {
@@ -74,6 +75,7 @@ $(document).ready(function () {
                         data: JSON.stringify(jsonModel),
                         contentType: "application/json; charset=utf-8",
                     success: function (data) {
+
                         $('#addNew').modal('hide')
                         let content = '';
                         for (let i = 0; i < data.content.length; i++) {
@@ -84,6 +86,7 @@ $(document).ready(function () {
                 })
             },
             error : function() {
+
                 document.getElementById("messageCreateEmployee").innerHTML = "<p style='font-weight: bold;color: red'>tạo tài khoản không thành công</p>";
             }
 
@@ -95,6 +98,7 @@ $(document).ready(function () {
 //edit
 $(document).ready(function () {
     $('#buttonEditEmployee').click(function (event) {
+
         var id = document.getElementById("idEdit").value;
         var name = document.getElementById("nameEdit").value;
         var birthday = document.getElementById("birthdayEdit").value;
@@ -138,7 +142,7 @@ $(document).ready(function () {
                 $('#edit').modal('hide')
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelement(data.content[i]);
+                    content += getelementEmployee(data.content[i]);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
                 document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Sửa thành công</h4>";
@@ -146,6 +150,7 @@ $(document).ready(function () {
 
             },
             error : function() {
+
                 document.getElementById("messageCreateEmployee").innerHTML = "<p style='font-weight: bold;color: red'>tạo tài khoản không thành công</p>";
             }
 
@@ -182,6 +187,7 @@ function getelementEmployee(elements) {
 // delete
 $(document).ready(function () {
     $('#buttonDelete').click(function (event) {
+
         var idDelete = document.getElementById("idDelete").value;
         $.ajax({
             type: "GET",
@@ -195,6 +201,7 @@ $(document).ready(function () {
                 }
                 document.getElementById('bodyTable').innerHTML = content;
                 document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
+
             }
         });
         event.preventDefault();
@@ -204,6 +211,7 @@ $(document).ready(function () {
 // search
 $(document).ready(function () {
     $('#buttonSearch').click(function (event) {
+        callLoading()
         var key = document.getElementById("key").value;
         $.ajax({
             type: "GET",
@@ -212,11 +220,13 @@ $(document).ready(function () {
             success: function (data) {
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelement(data.content[i]);
+                    content += getelementEmployee(data.content[i]);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
-            },
+                callLoading()
+                },
             error : function() {
+                callLoading()
                 document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: red'>Không tìm thấy</h4>";
             }
         });

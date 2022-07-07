@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<th:block th:include="/form/header.html"></th:block>
+<th:block th:include="/form/nav-bar.html"></th:block>
+<body id="body">
+<div class="container-fluid d-flex">
+    <div class="left col-12">
+        <div class="d-flex m-2">
+            <div class="col-8">
+                <h1>Danh sách dịch vụ</h1>
+            </div>
+            <div class="col-4 m-2">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm" id="key" name="key"
+                               aria-label="Tìm kiếm" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="buttonSearchService">Tìm kiếm</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div id="message"></div>
+        <div class="d-flex">
+            <div class="col-10">
+            </div>
+            <div class="col-2 text-right">
+                <button type="button" class="btn btn-outline-info m-1" style="margin-right: 2px"  data-toggle="modal" data-target="#addNew">Thêm mới dịch vụ
+                </button>
+            </div>
+        </div>
+        <table id="tables" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+            <tr>
+                <th>Mã dịch vụ</th>
+                <th>Tên dịch vụ</th>
+                <th>Diện tích</th>
+                <th>Tối đa</th>
+                <th>Kiểu thuê</th>
+                <th>Loại dịch vụ</th>
+                <th>Loại phòng</th>
+                <th>Hồ bơi</th>
+                <th>Tầng</th>
+                <th>Chi phí</th>
+                <th>Mô tả</th>
+                <th>Tuỳ chọn</th>
+            </tr>
+            </thead>
+            <tbody id="bodyTable">
+                <tr th:each="row : ${serviceList}">
+                    <td th:text="${row.getCode()}"></td>
+                    <td th:text="${row.getName()}"></td>
+                    <td th:text="${row.getArea()}"></td>
+                    <td th:text="${row.getMaxPeople()}"></td>
+                    <td th:text="${row.getRentType.getName()}"></td>
+                    <td th:text="${row.getServiceType.getName()}"></td>
+                    <td th:text="${row.getStandardRoom()}"></td>
+                    <td th:text="${row.getPoolArea() == null ? 'không' : row.getPoolArea()}" />
+                    <td th:text="${row.getFloor() == null ? 'không' : row.getFloor()}" />
+                    <td th:text="${row.getServiceCost()}"></td>
+                    <td th:text="${row.getDescription()}"></td>
+                    <td>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#edit"
+                                    th:attr="onclick=|editModalService('${row.getId}','${row.getCode}', '${row.getName}', '${row.getArea}'
+                                                        , '${row.getMaxPeople}', '${row.getRentType.getId}', '${row.getServiceType.getId}'
+                                                        , '${row.getStandardRoom}', '${row.getPoolArea}', '${row.getFloor}'
+                                                        , '${row.getServiceCost}', '${row.getDescription}')|">Sửa</button>
+                            <button type="button" class="btn btn-outline-danger m-1" data-toggle="modal" data-target="#delete"
+                                    th:attr="onclick=|deleteModalService('${row.getId}','${row.getCode}', '${row.getName}')|" >Xóa
+                            </button>
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<!-- Modal edit -->
+<div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelEdit">Sửa dịch vụ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex">
+                    <input type="text" hidden name="idEdit" id="idEdit" >
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Mã dịch vụ</label>
+                            <input type="text" class="form-control" name="codeEdit" id="codeEdit"
+                                   placeholder="Nhập mã dịch vụ" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên dịch vụ</label>
+                            <input type="text" class="form-control" name="nameEdit" id="nameEdit"
+                                   placeholder="Nhập tên dịch vụ" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Diện tích</label>
+                            <input type="number" name="areaEdit" id="areaEdit"  class="form-control datepicker" placeholder="Nhập diện tích" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Số người tối đa</label>
+                            <input type="number" class="form-control" name="maxPeopleEdit" id="maxPeopleEdit"
+                                   placeholder="Nhập số người tối đa" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kiểu thuê</label>
+                            <select class="custom-select" name="rentTypeEdit" id="rentTypeEdit">
+                                <option th:each="rentTypes : ${rentTypeList}" th:value="${rentTypes.id}" th:text="${rentTypes.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Loại dịch vụ</label>
+                            <select class="custom-select" name="serviceTypeEdit" id="serviceTypeEdit" onchange="changeServiceTypeEdit()">
+                                <option th:each="serviceTypes : ${serviceTypeList}" th:value="${serviceTypes.id}" th:text="${serviceTypes.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại phòng</label>
+                            <select class="custom-select" name="standardRoomEdit" id="standardRoomEdit" >
+                                <option value="Thường">Thường</option>
+                                <option value="VIP">VIP</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diện tích hồ bơi</label>
+                            <input type="number" class="form-control" name="poolAreaEdit" id="poolAreaEdit"
+                                   placeholder="Nhập diện tích hồ bơi" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tầng</label>
+                            <input type="number" class="form-control" name="numberFloorsEdit" id="numberFloorsEdit"
+                                   placeholder="Nhập tầng" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Chi phí</label>
+                            <input type="number" class="form-control" name="serviceCostEdit" id="serviceCostEdit"
+                                   placeholder="Nhập chi phí" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea class="form-control" name="descriptionEdit" id="descriptionEdit" rows="3" placeholder="Nhập mô tả" required></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark btn-block mb-4" id="buttonEditService">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal edit -->
+<!-- Modal addNew -->
+<div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabeladdNew">Thêm dịch vụ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="d-flex">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Mã dịch vụ</label>
+                                <input type="text" class="form-control" name="code" id="code"
+                                       placeholder="Nhập mã dịch vụ" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tên dịch vụ</label>
+                                <input type="text" class="form-control" name="name" id="name"
+                                       placeholder="Nhập tên dịch vụ" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Diện tích</label>
+                                <input type="number" name="area" id="area"  class="form-control datepicker" placeholder="Nhập diện tích" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Số người tối đa</label>
+                                <input type="number" class="form-control" name="maxPeople" id="maxPeople"
+                                       placeholder="Nhập số người tối đa" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kiểu thuê</label>
+                                <select class="custom-select" name="rentType" id="rentType">
+                                    <option th:each="rentTypes : ${rentTypeList}" th:value="${rentTypes.id}" th:text="${rentTypes.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Loại dịch vụ</label>
+                                <select class="custom-select" name="serviceType" id="serviceType" onchange="changeServiceType()">
+                                    <option th:each="serviceTypes : ${serviceTypeList}" th:value="${serviceTypes.id}" th:text="${serviceTypes.name}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Loại phòng</label>
+                                <select class="custom-select" name="standardRoom" id="standardRoom" >
+                                    <option value="Thường">Thường</option>
+                                    <option value="VIP">VIP</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Diện tích hồ bơi</label>
+                                <input type="number" class="form-control" name="poolArea" id="poolArea"
+                                       placeholder="Nhập diện tích hồ bơi" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tầng</label>
+                                <input type="number" class="form-control" name="numberFloors" id="numberFloors"
+                                       placeholder="Nhập tầng" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Chi phí</label>
+                                <input type="number" class="form-control" name="serviceCost" id="serviceCost"
+                                       placeholder="Nhập chi phí" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea class="form-control" name="description" id="description" rows="3" placeholder="Nhập mô tả" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-dark btn-block mb-4" id="buttonAddNewService">Xác nhận</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal addNew -->
+<!-- Modal delete -->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabeldelete" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabeldelete">Xoá Nhân viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id="bodyDeleteEmployee">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <input hidden type="text" name="idDelete" id="idDelete">
+                    <button type="button" class="btn btn-danger" id="buttonDelete">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal delete -->
+</body>
+<th:block th:include="/form/footer.html"></th:block>
+<script src="/bootstrap/js-furama/js-service.js"></script>
+</html>

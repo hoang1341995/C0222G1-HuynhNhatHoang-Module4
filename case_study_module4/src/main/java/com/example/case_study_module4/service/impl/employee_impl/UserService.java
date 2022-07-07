@@ -1,7 +1,7 @@
 package com.example.case_study_module4.service.impl.employee_impl;
 
 import com.example.case_study_module4.model.employee.User;
-import com.example.case_study_module4.repository.IUserRepository;
+import com.example.case_study_module4.repository.employee.IUserRepository;
 import com.example.case_study_module4.service.employee.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

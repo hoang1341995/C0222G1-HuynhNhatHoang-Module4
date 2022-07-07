@@ -27,7 +27,7 @@ public class CustomerController {
     @GetMapping(value = "")
     public String showIndex(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         Sort sort = Sort.by("id").ascending();
-        Page<Customer> list = iCustomerService.findAll(PageRequest.of(page, 2, sort));
+        Page<Customer> list = iCustomerService.findAll(PageRequest.of(page, 100, sort));
         model.addAttribute("customerList", list);
         model.addAttribute("customerTypeList", iCustomerTypeService.findAll());
 
@@ -50,9 +50,9 @@ public class CustomerController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/delete/{idDelete}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable Integer idDelete) {
-        iCustomerService.remove(idDelete);
+    @GetMapping(value = "/delete/{idDeleteCustomer}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Integer idDeleteCustomer) {
+        iCustomerService.remove(idDeleteCustomer);
         Sort sort = Sort.by("id").ascending();
         Page<Customer> list = iCustomerService.findAll(PageRequest.of(0, 100, sort));
         return new ResponseEntity<>(list, HttpStatus.OK);
