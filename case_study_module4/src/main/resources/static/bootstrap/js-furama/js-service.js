@@ -1,14 +1,15 @@
-function deleteModalEmployee(id, name) {
+function deleteModalService(id, code, name) {
     document.getElementById("idDelete").value = id;
-    document.getElementById("bodyDeleteEmployee").innerHTML = "ID nhân viên: <b style='color: #005cbf'>" + id + "</b><br>" +
-        "Tên nhân viên <b style='color: #005cbf'>" + name + "</b><br>" +
-        "Xóa nhân viên này chứ ?";
+    document.getElementById("bodyDeleteService").innerHTML = `Mã dịch vụ: <b style='color: #005cbf'>${code}</b><br>
+        Tên dịch vụ <b style='color: #005cbf'>${name}</b><br>
+        Xóa dịch vụ này chứ ?`;
 }
 
-function editModalService(id, code, name, maxPeople, rentType, serviceType, standardRoom, poolArea, floor, serviceCost, description) {
+function editModalService(id, code, name, area, maxPeople, rentType, serviceType, standardRoom, poolArea, floor, serviceCost, description) {
     document.getElementById("idEdit").value = id;
     document.getElementById("codeEdit").value = code;
     document.getElementById("nameEdit").value = name;
+    document.getElementById("areaEdit").value = area;
     document.getElementById("maxPeopleEdit").value = maxPeople;
     document.getElementById("rentTypeEdit").value = rentType;
     document.getElementById("serviceTypeEdit").value = serviceType;
@@ -17,7 +18,6 @@ function editModalService(id, code, name, maxPeople, rentType, serviceType, stan
     document.getElementById("floorEdit").value = floor;
     document.getElementById("serviceCostEdit").value = serviceCost;
     document.getElementById("descriptionEdit").value = description;
-    console.log(description)
 }
 
 
@@ -82,58 +82,54 @@ $(document).ready(function () {
     $('#buttonEditEmployee').click(function (event) {
 
         var id = document.getElementById("idEdit").value;
+        var code = document.getElementById("codeEdit").value;
         var name = document.getElementById("nameEdit").value;
-        var birthday = document.getElementById("birthdayEdit").value;
-        var idCard = document.getElementById("idCardEdit").value;
-        var phone = document.getElementById("phoneEdit").value;
-        var email = document.getElementById("emailEdit").value;
-        var address = document.getElementById("addressEdit").value;
-        var salary = document.getElementById("salaryEdit").value;
-        var position = document.getElementById("positionEdit").value;
-        var education = document.getElementById("educationEdit").value;
-        var division = document.getElementById("divisionEdit").value;
-        var username = document.getElementById("usernameEdit").value;
+        var area = document.getElementById("areaEdit").value
+        var maxPeople = document.getElementById("maxPeopleEdit").value
+        var rentType = document.getElementById("rentTypeEdit").value
+        var serviceType = document.getElementById("serviceTypeEdit").value
+        var standardRoom = document.getElementById("standardRoomEdit").value
+        var poolArea = document.getElementById("poolAreaEdit").value
+        var floor = document.getElementById("floorEdit").value
+        var serviceCost = document.getElementById("serviceCostEdit").value
+        var description = document.getElementById("descriptionEdit").value
         var jsonModel = {
             "id": id,
+            "code": code,
             "name": name,
-            "birthday": birthday,
-            "idCard": idCard,
-            "phone": phone,
-            "email": email,
-            "address": address,
-            "salary": salary,
-            "position": {
-                "id": position
+            "area": area,
+            "maxPeople": maxPeople,
+            "serviceCost": serviceCost,
+            "description": description,
+            "standardRoom": standardRoom,
+            "poolArea": poolArea,
+            "floor": floor,
+            "rentType": {
+                "id": rentType
             },
-            "education": {
-                "id": education
-            },
-            "division": {
-                "id": division
-            },
-            "user": {
-                "username": username
+            "serviceType": {
+                "id": serviceType
             }
         }
         $.ajax({
             type: 'post',
-            url: '/employee/edit',
+            url: '/service/edit',
             data: JSON.stringify(jsonModel),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $('#edit').modal('hide')
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelementEmployee(data.content[i]);
+                    content += getelementService(data.content[i]);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Sửa thành công</h4>";
+                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Sửa thành công</h4>";
 
 
             },
             error : function() {
 
-                document.getElementById("messageCreateEmployee").innerHTML = "<p style='font-weight: bold;color: red'>tạo tài khoản không thành công</p>";
+                document.getElementById("message").innerHTML = "<p style='font-weight: bold;color: red'>không thành công</p>";
             }
 
         });
@@ -167,21 +163,21 @@ function getelementService(elements) {
 
 // delete
 $(document).ready(function () {
-    $('#buttonDelete').click(function (event) {
+    $('#buttonDeleteService').click(function (event) {
 
         var idDelete = document.getElementById("idDelete").value;
         $.ajax({
             type: "GET",
             //tên API
-            url: `/employee/delete/${idDelete}`,
+            url: `/service/delete/${idDelete}`,
             success: function (data) {
                 $('#delete').modal('hide')
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelementEmployee(data.content[i]);
+                    content += getelementService(data.content[i]);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
+                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
 
             }
         });
@@ -191,64 +187,66 @@ $(document).ready(function () {
 
 // search
 $(document).ready(function () {
-    $('#buttonSearch').click(function (event) {
+    $('#buttonSearchService').click(function (event) {
         callLoading()
         var key = document.getElementById("key").value;
         $.ajax({
             type: "GET",
             //tên API
-            url: `/employee/search/${key}`,
+            url: `/service/search/${key}`,
             success: function (data) {
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getelementEmployee(data.content[i]);
+                    content += getelementService(data.content[i]);
                 }
+                document.getElementById("message").innerHTML = "";
+
                 document.getElementById('bodyTable').innerHTML = content;
                 callLoading()
             },
             error : function() {
                 callLoading()
-                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: red'>Không tìm thấy</h4>";
+                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: red'>Không tìm thấy</h4>";
             }
         });
         event.preventDefault();
     });
 })
 
-function changeServiceTypeAddNew(){
-    if (document.getElementById("serviceTypeIdAddNew").value == "1"){
-        document.getElementById("poolAreaAddNew").placeholder = "Nhập diện tích hồ bơi"
-        document.getElementById("numberFloorsAddNew").placeholder = "Nhập số tầng"
-        document.getElementById("poolAreaAddNew").disabled = false;
-        document.getElementById("numberFloorsAddNew").disabled = false;
-    }else if (document.getElementById("serviceTypeIdAddNew").value == "2"){
-        document.getElementById("poolAreaAddNew").value = "";
-        document.getElementById("poolAreaAddNew").placeholder = "House không có hồ bơi"
-        document.getElementById("numberFloorsAddNew").placeholder = "Nhập số tầng"
-        document.getElementById("poolAreaAddNew").disabled = true;
-        document.getElementById("numberFloorsAddNew").disabled = false;
+function changeServiceTypeEdit(){
+    if (document.getElementById("serviceTypeEdit").value == "1"){
+        document.getElementById("poolAreaEdit").placeholder = "Nhập diện tích hồ bơi"
+        document.getElementById("floorEdit").placeholder = "Nhập số tầng"
+        document.getElementById("poolAreaEdit").disabled = false;
+        document.getElementById("floorEdit").disabled = false;
+    }else if (document.getElementById("serviceTypeEdit").value == "2"){
+        document.getElementById("poolAreaEdit").value = "";
+        document.getElementById("poolAreaEdit").placeholder = "House không có hồ bơi"
+        document.getElementById("floorEdit").placeholder = "Nhập số tầng"
+        document.getElementById("poolAreaEdit").disabled = true;
+        document.getElementById("floorEdit").disabled = false;
     }else {
-        document.getElementById("poolAreaAddNew").value = "";
-        document.getElementById("poolAreaAddNew").placeholder = "Room không có hồ bơi"
-        document.getElementById("numberFloorsAddNew").value = "";
-        document.getElementById("numberFloorsAddNew").placeholder = "Room không có tầng"
-        document.getElementById("poolAreaAddNew").disabled = true;
-        document.getElementById("numberFloorsAddNew").disabled = true;
+        document.getElementById("poolAreaEdit").value = "";
+        document.getElementById("poolAreaEdit").placeholder = "Room không có hồ bơi"
+        document.getElementById("floorEdit").value = "";
+        document.getElementById("floorEdit").placeholder = "Room không có tầng"
+        document.getElementById("poolAreaEdit").disabled = true;
+        document.getElementById("floorEdit").disabled = true;
     }
 }
 function changeServiceType(){
-    if (document.getElementById("serviceType").value == "1"){
+    if (document.getElementById("serviceType").value == "1"){ //villa
         document.getElementById("poolArea").placeholder = "Nhập diện tích hồ bơi"
         document.getElementById("numberFloors").placeholder = "Nhập số tầng"
         document.getElementById("poolArea").disabled = false;
         document.getElementById("numberFloors").disabled = false;
-    }else if (document.getElementById("serviceType").value == "2"){
+    }else if (document.getElementById("serviceType").value == "2"){ //house
         document.getElementById("poolArea").value = "";
         document.getElementById("poolArea").placeholder = "House không có hồ bơi"
         document.getElementById("numberFloors").placeholder = "Nhập số tầng"
         document.getElementById("poolArea").disabled = true;
         document.getElementById("numberFloors").disabled = false;
-    }else {
+    }else {  //room
         document.getElementById("poolArea").value = "";
         document.getElementById("poolArea").placeholder = "Room không có hồ bơi"
         document.getElementById("numberFloors").value = "";
@@ -256,18 +254,4 @@ function changeServiceType(){
         document.getElementById("poolArea").disabled = true;
         document.getElementById("numberFloors").disabled = true;
     }
-}
-function editService(id, name, area, maxPeople, rentTypeId, serviceTypeId, standardRoom, poolArea, numberFloors, serviceCost, description) {
-    document.getElementById("id").value = id;
-    document.getElementById("name").value = name;
-    document.getElementById("area").value = area;
-    document.getElementById("maxPeople").value = maxPeople;
-    document.getElementById("rentTypeId").value = rentTypeId;
-    document.getElementById("serviceTypeId").value = serviceTypeId;
-    document.getElementById("standardRoom").value = standardRoom;
-    document.getElementById("poolArea").value = poolArea;
-    document.getElementById("numberFloors").value = numberFloors;
-    document.getElementById("serviceCost").value = serviceCost;
-    document.getElementById("description").value = description;
-    changeServiceType();
 }

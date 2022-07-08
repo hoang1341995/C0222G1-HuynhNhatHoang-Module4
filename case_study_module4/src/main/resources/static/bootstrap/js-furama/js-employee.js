@@ -76,13 +76,8 @@ $(document).ready(function () {
                         contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
-                        $('#addNew').modal('hide')
-                        let content = '';
-                        for (let i = 0; i < data.content.length; i++) {
-                            content += getelementEmployee(data.content[i]);
+                        menu('employee')
                         }
-                        document.getElementById('bodyTable').innerHTML = content;
-                        document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Thêm mới thành công</h4>";                    }
                 })
             },
             error : function() {
@@ -139,14 +134,7 @@ $(document).ready(function () {
             data: JSON.stringify(jsonModel),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#edit').modal('hide')
-                let content = '';
-                for (let i = 0; i < data.content.length; i++) {
-                    content += getelementEmployee(data.content[i]);
-                }
-                document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Sửa thành công</h4>";
-
+                menu('employee')
 
             },
             error : function() {
@@ -194,13 +182,7 @@ $(document).ready(function () {
             //tên API
             url: `/employee/delete/${idDelete}`,
             success: function (data) {
-                $('#delete').modal('hide')
-                let content = '';
-                for (let i = 0; i < data.content.length; i++) {
-                    content += getelementEmployee(data.content[i]);
-                }
-                document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("messageEmployee").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
+                menu('employee')
 
             }
         });

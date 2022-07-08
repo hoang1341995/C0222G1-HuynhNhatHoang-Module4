@@ -1,4 +1,4 @@
-package com.example.case_study_module4.service.impl.employee_impl;
+package com.example.case_study_module4.service.employee.employee_impl;
 
 import com.example.case_study_module4.model.employee.User;
 import com.example.case_study_module4.repository.employee.IUserRepository;

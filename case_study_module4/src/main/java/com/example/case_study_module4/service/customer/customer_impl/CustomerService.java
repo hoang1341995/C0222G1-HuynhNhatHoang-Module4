@@ -1,4 +1,4 @@
-package com.example.case_study_module4.service.impl.customer_impl;
+package com.example.case_study_module4.service.customer.customer_impl;
 
 import com.example.case_study_module4.model.customer.Customer;
 import com.example.case_study_module4.repository.customer.ICustomerRepository;
@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,11 @@ public class CustomerService implements ICustomerService {
     @Override
     public Page<Customer> findAll(Pageable pageable) {
         return iCustomerRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return iCustomerRepository.findAll();
     }
 
     @Override

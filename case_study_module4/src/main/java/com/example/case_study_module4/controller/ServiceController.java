@@ -32,8 +32,6 @@ public class ServiceController {
 
     @GetMapping(value = "")
     public String showIndex(@PageableDefault(value = 10) Pageable pageable, Model model) {
-//        Sort sort = Sort.by("id").ascending();
-//        Page<Service> list = iServiceService.findAll(PageRequest.of(page, 100, sort));
         Page<Service> list = iServiceService.findAll(pageable);
         model.addAttribute("rentTypeList", iRentTypeService.findAll());
         model.addAttribute("serviceTypeList", iServiceTypeService.findAll());
@@ -45,37 +43,41 @@ public class ServiceController {
     @PostMapping(value = "/create")
     public ResponseEntity<?> createService(@PageableDefault(value = 10) Pageable pageable,@RequestBody Service service) {
         iServiceService.save(service);
-        Sort sort = Sort.by("id").ascending();
-        System.out.println(iServiceService.findAll());
         Page<Service> list = iServiceService.findAll(pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-//
-//    @PostMapping(value = "/edit")
-//    public ResponseEntity<?> editEmployee(@RequestBody Employee employee) {
-//        iEmployeeService.update(employee);
-//        Sort sort = Sort.by("id").ascending();
-//        Page<Employee> list = iEmployeeService.findAll(PageRequest.of(0, 100, sort));
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-//
-//    @GetMapping(value = "/delete/{idDelete}")
-//    public ResponseEntity<?> deleteEmployee(@PathVariable Integer idDelete) {
-//        iEmployeeService.remove(idDelete);
-//        Sort sort = Sort.by("id").ascending();
-//        Page<Employee> list = iEmployeeService.findAll(PageRequest.of(0, 100, sort));
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-//
-//    @GetMapping(value = "/search/{key}")
-//    public ResponseEntity<?> searchEmployee(@PathVariable String key) {
-//        Sort sort = Sort.by("employee_name").ascending();
-//        Page<Employee> list = iEmployeeService.searchByName(key, PageRequest.of(0, 100, sort));
-//        if (!list.isEmpty()){
-//            return new ResponseEntity<>(list, HttpStatus.OK);
-//        }else{
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+
+    @PostMapping(value = "/edit")
+    public ResponseEntity<?> editService(@RequestBody Service service) {
+        iServiceService.update(service);
+        Sort sort = Sort.by("id").ascending();
+        Page<Service> list = iServiceService.findAll(PageRequest.of(0, 100, sort));
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/delete/{idDelete}")
+    public ResponseEntity<?> deleteService(@PathVariable Integer idDelete) {
+        iServiceService.remove(idDelete);
+        Sort sort = Sort.by("id").ascending();
+        Page<Service> list = iServiceService.findAll(PageRequest.of(0, 100, sort));
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search/{key}")
+    public ResponseEntity<?> searchService(@PathVariable String key) {
+        Sort sort = Sort.by("service_name").ascending();
+        Page<Service> list = iServiceService.searchByName(key, PageRequest.of(0, 100, sort));
+        if (!list.isEmpty()){
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/getList")
+    public ResponseEntity<?> getAll(@PageableDefault(value = 10) Pageable pageable) {
+        Page<Service> list = iServiceService.findAll(pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
 }

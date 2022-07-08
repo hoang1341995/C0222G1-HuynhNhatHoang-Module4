@@ -8,6 +8,10 @@ function menu(url) {
             $('#body').html(data);
             $('#body').children('meta,link,title,style').remove();
         },
+        error: function(data) {
+            alert("Lỗi tải trang "+ data.status)
+            callLoading();
+        }
     });
 }
 

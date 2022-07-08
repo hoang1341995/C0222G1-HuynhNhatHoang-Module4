@@ -1,4 +1,4 @@
-package com.example.case_study_module4.service.impl.service_impl;
+package com.example.case_study_module4.service.service.service_impl;
 
 import com.example.case_study_module4.model.service.RentType;
 import com.example.case_study_module4.repository.service.IRentTypeRepository;

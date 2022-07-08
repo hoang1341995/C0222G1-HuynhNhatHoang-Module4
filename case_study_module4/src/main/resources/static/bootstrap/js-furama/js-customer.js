@@ -51,13 +51,7 @@ $(document).ready(function () {
             data: JSON.stringify(jsonModel),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#edit').modal('hide')
-                let content = '';
-                for (let i = 0; i < data.content.length; i++) {
-                    content += getElementCustomer(data.content[i]);
-                }
-                document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Sửa thành công</h4>";
+                menu('customer')
                 },
             error : function() {
 
@@ -104,14 +98,7 @@ $(document).ready(function () {
             data: JSON.stringify(jsonModel),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#addNew').modal('hide')
-                let content = '';
-                for (let i = 0; i < data.content.length; i++) {
-                    content += getElementCustomer(data.content[i]);
-                }
-                document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Thêm mới thành công</h4>";
-
+                menu('customer')
                 },
             error : function() {
 
@@ -133,13 +120,7 @@ $(document).ready(function () {
             //tên API
             url: `/customer/delete/${idDeleteCustomer}`,
             success: function (data) {
-                $('#delete').modal('hide')
-                let content = '';
-                for (let i = 0; i < data.content.length; i++) {
-                    content += getElementCustomer(data.content[i]);
-                }
-                document.getElementById('bodyTable').innerHTML = content;
-                document.getElementById("message").innerHTML = "<h4 style='font-weight: bold;color: dodgerblue'>Xóa thành công</h4>";
+                menu('customer')
 
             }
         });
@@ -185,7 +166,7 @@ function getElementCustomer(elements) {
               <td >${elements.phone}</td>
                <td >${elements.email}</td>
               <td >${elements.address}</td>
-               <td >${elements.customerType.id}</td>
+               <td >${elements.customerType.name}</td>
                <td>
         <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#edit"
         onclick= "editModalCustomer('${elements.id}','${elements.code}','${elements.name}'
