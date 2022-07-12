@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<th:block th:include="/form/header.html"></th:block>
+<th:block th:include="/form/nav-bar.html"></th:block>
+<body id="body">
+<div class="container-fluid d-flex">
+    <div class="left col-12">
+        <div class="d-flex m-2">
+            <div class="col-8">
+                <h1>Danh sách khách hàng</h1>
+            </div>
+            <div class="col-4 m-2">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm" id="key" name="key"
+                               aria-label="Tìm kiếm"
+                               value="" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="buttonSearch">Tìm kiếm</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div id="message" style="color: dodgerblue;font-size: 24px"></div>
+        <div class="d-flex">
+            <div class="col-10">
+            </div>
+            <div class="col-2 text-right">
+                <button type="button" class="btn btn-outline-info m-2" style="margin-right: 2px" data-toggle="modal" data-target="#addNewModal">Thêm mới
+                </button>
+            </div>
+        </div>
+<!--        table-striped-->
+        <table id="tables" class="table table-hover table-bordered" style="width:100%">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Namne</th>
+                <th>BirthDay</th>
+                <th>CustomerType</th>
+                <th>Phone</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody id="bodyTable">
+            <tr th:each="row : ${customerList}">
+                <td th:text="${row.getId()}"></td>
+                <td th:text="${row.getCode()}"></td>
+                <td th:text="${row.getName()}"></td>
+                <td th:text="${row.getBirthDay()}"></td>
+                <td th:text="${row.getCustomerType().getName}"></td>
+                <td th:text="${row.getPhone()}"></td>
+                <td th:text="${row.getEmail()}"></td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editModal"
+                            th:attr="onclick=|functionEdit('${row.getId}', '${row.getCode}', '${row.getName}'
+                                                        , '${row.getBirthDay}', '${row.getCustomerType.getId}', '${row.getPhone}'
+                                                        , '${row.getEmail}')|">Edit</button>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"
+                            th:attr="onclick=|functionDelete('${row.getId}', '${row.getCode}', '${row.getName}')|">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex">
+            <div class="col-10">
+            </div>
+            <div class="col-2 text-right">
+                     <span>
+        <a type="button" class="btn btn-outline-info" style="margin-right: 2px" th:if="${customerList.hasPrevious()}" th:href="@{/(page = ${customerList.number - 1})}">«</a>
+                    </span>
+                <span th:each="pageNo: ${#numbers.sequence(0,customerList.totalPages - 1)}">
+        <a type="button" th:class=" ${pageNo == customerList.number}? 'btn btn-info': 'btn btn-outline-info'" style="margin-right: 2px" th:href="@{/(page = ${pageNo})}" th:text="${pageNo}"></a>
+                    </span>
+                <span>
+        <a type="button" class="btn btn-outline-info" style="margin-right: 2px" th:if="${customerList.hasNext()}" th:href="@{/(page = ${customerList.number +1})}">»</a>
+                    </span>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+<!-- Modal edit -->
+<div class="modal fade bd-example-modal-lg" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-light">
+            <div class="modal-header bg-dark" >
+                <h5 class="modal-title text-white" id="exampleModalLabeledit">Sửa khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idEdit" name="idEdit"/>
+                <div class="d-flex">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Mã khách hàng</label>
+                            <input type="text" class="form-control" id="codeEdit" name="codeEdit" placeholder="Nhập mã khách hàng" >
+                            <p style="color: red" id="valid-code-edit"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên khách hàng</label>
+                            <input type="text" class="form-control" id="nameEdit" name="nameEdit" placeholder="Nhập tên khách hàng" >
+                            <p style="color: red" id="valid-name-edit"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại khách hàng</label>
+                            <select class="custom-select" id="customerTypeEdit" name="customerTypeEdit">
+                                <option th:each="customerType : ${customerTypeList}" th:value="${customerType.id}" th:text="${customerType.name}">
+                                </option>
+                            </select>
+                            <p style="color: red" id="valid-customerType-edit"></p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Ngày Sinh</label>
+                            <input placeholder="Selected date" type="date" id="birthDayEdit" name="birthDayEdit" class="form-control datepicker" >
+                            <p style="color: red" id="valid-birthDay-edit"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Điện thoại</label>
+                            <input type="text" class="form-control" id="phoneEdit" name="phoneEdit" placeholder="Nhập số Điện thoại" >
+                            <p style="color: red" id="valid-phone-edit"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="emailEdit" name="emailEdit" placeholder="Nhập Email" >
+                            <p style="color: red" id="valid-email-edit"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-block mb-4 btn-outline-dark" id="buttonEdit">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal edit -->
+
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabeldelete" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-light">
+            <div class="modal-header bg-dark" >
+                <h5 class="modal-title text-white" >Xóa khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id="bodyDelete">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <input hidden type="text" name="idDelete" id="idDelete">
+                <button type="button" class="btn btn-danger" id="buttonDelete">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal delete -->
+
+<!-- Modal addNew -->
+<div class="modal fade bd-example-modal-lg" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-light">
+            <div class="modal-header bg-dark" >
+                <h5 class="modal-title text-white" >Thêm mới khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label>Mã khách hàng</label>
+                        <input type="text" class="form-control" id="code" name="code"
+                               placeholder="Nhập tên sản phẩm" >
+                        <p style="color: red" id="valid-code"></p>
+                    </div>
+                <div class="form-group">
+                        <label>Tên khách hàng</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               placeholder="Nhập tên sản phẩm" >
+                    <p style="color: red" id="valid-name"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" class="form-control" id="birthDay" name="birthDay"
+                               placeholder="Nhập giá sản phẩm" >
+                        <p style="color: red" id="valid-birthDay"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Loại khách hàng</label>
+                        <select class="custom-select" id="customerType" name="customerType">
+                            <option th:each="customerType : ${customerTypeList}" th:value="${customerType.id}" th:text="${customerType.name}">
+                            </option>
+                        </select>
+                        <p style="color: red" id="valid-customerType"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" id="email" name="email"
+                               placeholder="Nhập Email" >
+                        <p style="color: red" id="valid-email"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" name="phone"
+                               placeholder="Nhập số điện thoại" >
+                        <p style="color: red" id="valid-phone"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-block mb-4 btn-outline-dark" id="buttonAddNew">Xác nhận</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal addNew -->
+</body>
+<th:block th:include="/form/footer.html"></th:block>
+<script>
+    $('a[href="#"]').on('click', function(event) {
+        // code to add the item to shopping cart (AJAX), omitted here
+        // Upon successful return of the AJAX data:
+        var myRow = $(this).closest('tr');
+
+        myRow.addClass('stylish');
+
+        setTimeout(function() {
+            myRow.removeClass('stylish');
+        }, 1000);
+    });
+</script>
+</html>
