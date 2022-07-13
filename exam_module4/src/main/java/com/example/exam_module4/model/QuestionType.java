@@ -5,26 +5,27 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "customer_type")
-public class CustomerType {
+@Entity(name = "question_type")
+public class QuestionType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "customerType")
-    @JsonBackReference(value = "customerType")
-    private Set<Customer> customers;
+    @OneToMany(mappedBy = "questionType")
+    @JsonBackReference(value = "questionType")
+    private Set<QuestionContent> questionContents;
 
-    public CustomerType() {
+
+    public QuestionType() {
     }
 
-    public CustomerType(Integer id, String name, Set<Customer> customers) {
+    public QuestionType(Integer id, String name, Set<QuestionContent> questionContents) {
         this.id = id;
         this.name = name;
-        this.customers = customers;
+        this.questionContents = questionContents;
     }
 
     public Integer getId() {
@@ -43,11 +44,11 @@ public class CustomerType {
         this.name = name;
     }
 
-    public Set<Customer> getCustomers() {
-        return customers;
+    public Set<QuestionContent> getQuestionContents() {
+        return questionContents;
     }
 
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
+    public void setQuestionContents(Set<QuestionContent> questionContents) {
+        this.questionContents = questionContents;
     }
 }

@@ -1,32 +1,25 @@
-function functionEdit(id, code, name, birthday, customerType, phone, email) {
-    document.getElementById("idEdit").value = id;
-    document.getElementById("codeEdit").value = code;
-    document.getElementById("nameEdit").value = name;
-    document.getElementById("birthDayEdit").value = birthday;
-    document.getElementById("customerTypeEdit").value = customerType;
-    document.getElementById("phoneEdit").value = phone;
-    document.getElementById("emailEdit").value = email;
+function functionEdit(answer, title, questionType, dateCreate, status, content) {
+    document.getElementById("view-title").innerText = title;
+    document.getElementById("view-questionType").innerText = questionType;
+    document.getElementById("view-dateCreate").innerText = dateCreate;
+    document.getElementById("view-status").innerText = status;
+    document.getElementById("view-content").innerText = content;
+    document.getElementById("view-answer").innerText = answer;
 }
 
 //addNew
 $(document).ready(function () {
     $('#buttonAddNew').click(function (event) {
 
-        var code = document.getElementById("code").value;
-        var name = document.getElementById("name").value;
-        var birthDay = document.getElementById("birthDay").value;
-        var customerType = document.getElementById("customerType").value;
-        var email = document.getElementById("email").value;
-        var phone = document.getElementById("phone").value;
+        var title = document.getElementById("title").value;
+        var content = document.getElementById("content").value;
+        var questionType = document.getElementById("questionType").value;
         var jsonModel = {
-            code: code,
-            name: name,
-            birthDay: birthDay,
-            customerType: {
-                id : customerType
-            },
-            email: email,
-            phone: phone
+            title: title,
+            content: content,
+            questionType: {
+                id : questionType
+            }
         }
         $.ajax({
             type: 'post',
@@ -34,10 +27,11 @@ $(document).ready(function () {
             data: JSON.stringify(jsonModel),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                console.log(data)
                 $('#addNewModal').modal('hide');
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    if (code === data.content[i].code){
+                    if (title === data.content[i].title){
                         content += getElement(data.content[i],` class="classNew"`);
                     }else{
                         content += getElement(data.content[i],"");
@@ -48,22 +42,12 @@ $(document).ready(function () {
 
             },
             error : function(data) {
-                console.log(data.responseJSON.code)
-                let validCode = document.getElementById('valid-code');
-                data.responseJSON.code != undefined ? validCode.innerText = data.responseJSON.code : validCode.innerText = "";
+                console.log(data.responseJSON.title)
+                let validTitle = document.getElementById('valid-title');
+                data.responseJSON.title != undefined ? validTitle.innerText = data.responseJSON.title : validTitle.innerText = "";
 
-                let validName = document.getElementById('valid-name');
-                data.responseJSON.name != undefined ? validName.innerText = data.responseJSON.name : validName.innerText = "";
-
-                let validBirthDay = document.getElementById('valid-birthDay');
-                data.responseJSON.birthDay != undefined ? validBirthDay.innerText = data.responseJSON.birthDay : validBirthDay.innerText = "";
-
-                let validEmail = document.getElementById('valid-email');
-                data.responseJSON.email != undefined ? validEmail.innerText = data.responseJSON.email : validEmail.innerText = "";
-
-                let validPhone = document.getElementById('valid-phone');
-                data.responseJSON.phone != undefined ? validPhone.innerText = data.responseJSON.phone : validPhone.innerText = "";
-
+                let validContent = document.getElementById('valid-content');
+                data.responseJSON.content != undefined ? validContent.innerText = data.responseJSON.content : validContent.innerText = "";
             }
 
         });
@@ -71,11 +55,11 @@ $(document).ready(function () {
     });
 })
 
-function functionDelete(id, code, name) {
+function functionDelete(id, title, questionType) {
     document.getElementById("idDelete").value = id;
-    document.getElementById("bodyDelete").innerHTML = "Mã khách hàng: <b style='color: #005cbf'>" + code + "</b><br>" +
-        "Tên khách hàng <b style='color: #005cbf'>" + name + "</b><br>" +
-        "Xóa khách hàng này chứ ?";
+    document.getElementById("bodyDelete").innerHTML = "Tiêu đề: <b style='color: #005cbf'>" + title + "</b><br>" +
+        "Loại câu hỏi <b style='color: #005cbf'>" + questionType + "</b><br>" +
+        "Xóa câu hỏi này chứ ?";
 }
 
 // delete
@@ -110,18 +94,21 @@ $(document).ready(function () {
     $('#buttonSearch').click(function (event) {
         callLoading()
         var key = document.getElementById("key").value;
+        var questionTypeSearch = document.getElementById("questionTypeSearch").value;
+        console.log(questionTypeSearch)
         $.ajax({
             type: "GET",
             //tên API
-            url: `/search/${key}`,
+            url: `/search/${key}/${questionTypeSearch}`,
             success: function (data) {
                 let content = '';
                 for (let i = 0; i < data.content.length; i++) {
-                    content += getElement(data.content[i],"");
+                    content += getElement(data.content[i],` class="classNew"`);
                 }
                 document.getElementById('bodyTable').innerHTML = content;
                 document.getElementById("message").innerHTML = ""
                 callLoading()
+                transitionColorForRow()
             },
             error : function() {
                 callLoading()
@@ -204,21 +191,17 @@ $(document).ready(function () {
 function getElement(elements,codeNew) {
     console.log(codeNew)
     return `<tr `+ codeNew +`>
-               <td >${elements.id}</td>
-               <td >${elements.code}</td>
-               <td >${elements.name}</td>
-               <td >${elements.birthDay}</td>
-               <td >${elements.customerType.name}</td>
-               <td >${elements.phone}</td>
-               <td >${elements.email}</td>
+               <td >${elements.title}</td>
+               <td >${elements.questionType.name}</td>
+               <td >${elements.dateCreate}</td>
+               <td >${elements.status}</td>
                <td>
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editModal"
-                            onclick="functionEdit('${elements.id}', '${elements.code}', '${elements.name}'
-                                     , '${elements.birthDay}', '${elements.customerType.id}', '${elements.phone}'
-                                     , '${elements.email}')">Edit</button>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editModal"
+                            onclick="functionEdit('${elements.answer}', '${elements.title}', '${elements.questionType.name}'
+                                                        , '${elements.dateCreate}', '${elements.status}', '${elements.content}')">Cập nhật</button>
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"
-                            onclick="functionDelete('${elements.id}', '${elements.code}', '${elements.name}')">Delete</button>
-         </td></tr>`;
+                            onclick="functionDelete('${elements.id}', '${elements.title}', '${elements.questionType.name}')">Xóa</button>
+                </td></tr>`;
 
 }
 
