@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26579d3-b120-4af5-93fa-5ac7377a02a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../tuan12/src/test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/WEB-INF/resources/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/img/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/7.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/build/libs/config_mailbox-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/build/libs/config_mailbox-1.0-SNAPSHOT.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/WEB-INF/dispatcher-servlet.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/WEB-INF/dispatcher-servlet.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/WEB-INF/views/form/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../../ss4_data_binding_form/exercise/config_mailbox/src/main/webapp/WEB-INF/views/form/header.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../case_study_module4/src/main/java/com/example/case_study_module4/controller/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../case_study_module4/src/main/java/com/example/case_study_module4/controller/ServiceController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +25,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectId" id="2CCUtr3foEu4M9DjRHoFlDPJZ1O" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -46,6 +34,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -75,6 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1655286183108</updated>
       <workItem from="1655286184437" duration="708000" />
+      <workItem from="1658306279405" duration="240000" />
     </task>
     <servers />
   </component>

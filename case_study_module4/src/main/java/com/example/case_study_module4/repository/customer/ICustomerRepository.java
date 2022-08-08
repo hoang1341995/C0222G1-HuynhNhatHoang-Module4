@@ -7,10 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query(value = "SELECT * FROM customer WHERE customer_name LIKE :key", nativeQuery = true)
     Page<Customer> searchByName(@Param("key") String key, Pageable pageable);
+
+    @Query(value = "SELECT * FROM customer WHERE customer_id = :id", nativeQuery = true)
+    Customer findCustomerById(@Param("id") Integer id);
 
 }

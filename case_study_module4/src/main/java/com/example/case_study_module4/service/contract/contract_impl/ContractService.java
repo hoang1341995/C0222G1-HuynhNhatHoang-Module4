@@ -34,6 +34,12 @@ public class ContractService implements IContractService {
     }
 
     @Override
+    public List<ContractDto> findAllList(Pageable pageable) {
+        List<ContractDto> contractDtoList =  convertContractToContracDto(iContractRepository.findAll(pageable));
+        return contractDtoList;
+    }
+
+    @Override
     public void save(Contract contract) {
         iContractRepository.save(contract);
     }
@@ -48,6 +54,7 @@ public class ContractService implements IContractService {
 //        return iContractRepository.findById(id);
         return null;
     }
+
 
     public static List<ContractDto> convertContractToContracDto(Page<Contract> contracts){
         ContractDto contractDto;

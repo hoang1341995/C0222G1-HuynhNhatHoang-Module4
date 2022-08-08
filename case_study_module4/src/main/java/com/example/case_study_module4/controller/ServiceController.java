@@ -3,9 +3,11 @@ package com.example.case_study_module4.controller;
 import com.example.case_study_module4.model.employee.Employee;
 import com.example.case_study_module4.model.employee.User;
 import com.example.case_study_module4.model.service.Service;
+import com.example.case_study_module4.model.service.ServiceType;
 import com.example.case_study_module4.service.service.IRentTypeService;
 import com.example.case_study_module4.service.service.IServiceService;
 import com.example.case_study_module4.service.service.IServiceTypeService;
+import com.example.case_study_module4.service.service.service_impl.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/service")
 public class ServiceController {
     @Autowired
@@ -38,7 +43,6 @@ public class ServiceController {
         model.addAttribute("serviceList", list);
         return "service/index-service";
     }
-
 
     @PostMapping(value = "/create")
     public ResponseEntity<?> createService(@PageableDefault(value = 10) Pageable pageable,@RequestBody Service service) {
@@ -77,6 +81,18 @@ public class ServiceController {
     @GetMapping(value = "/getList")
     public ResponseEntity<?> getAll(@PageableDefault(value = 10) Pageable pageable) {
         Page<Service> list = iServiceService.findAll(pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getServiceList")
+    public ResponseEntity<?> getAll() {
+        List<Service> list = iServiceService.findAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/serviceTypeList")
+    public ResponseEntity<?> serviceTypeList() {
+        List<ServiceType> list = iServiceTypeService.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

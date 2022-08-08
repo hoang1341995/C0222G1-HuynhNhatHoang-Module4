@@ -15,7 +15,7 @@ public interface ICustomerService {
 
     void save(Customer customer);
 
-    Optional<Customer> findById(int id);
+    Customer findCustomerById(Integer id);
 
     void update(Customer customer);
 

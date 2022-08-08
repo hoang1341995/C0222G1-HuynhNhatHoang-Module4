@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/contract")
 public class ContractController {
 
@@ -84,5 +85,21 @@ public class ContractController {
         Optional<Service> list = iServiceService.findById(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+
+    //API---
+    @GetMapping(value = "/getListContract")
+    public ResponseEntity<?> getListContract(@PageableDefault(value = 100) Pageable pageable) {
+        List<ContractDto> list = iContractService.findAllList(pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/getListContractDetail")
+    public ResponseEntity<?> getListContractDetail() {
+        List<ContractDetail> list = iContractDetailService.findAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
     
 }
